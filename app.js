@@ -152,7 +152,7 @@
         p(heelLeft ? x + 30 : x + 4, 286, 10, 4, '2px', '#FF3B5C') +
         p(heelLeft ? x + 4 : x + 31, 296, 8, 4, '1px', '#2A2F3A', 'box-shadow:0 0 0 1px #FF3B5C');
     };
-    return p(24, -30, 112, 100, '48px 48px 34px 34px', '#141012', fleck) +
+    return p(24, -30, 112, 100, '48px 48px 34px 34px', '#141012', fleck + ';box-shadow:0 0 0 1.5px rgba(143,243,255,.35),0 -2px 18px rgba(46,230,255,.38)') +
       p(40, 184, 38, 104, '4px', '#22252D') + p(82, 184, 38, 104, '4px', '#22252D') +
       shoe(35, true) + shoe(81, false) +
       p(38, 170, 84, 16, '3px', '#16181E') +
@@ -189,7 +189,9 @@
 
     // world
     h.push('<div class="abs t-world" data-el="world" aria-hidden="true" style="inset:0;transform-origin:' + g.origin + '">');
-    h.push('<div class="abs" style="left:0;top:0;width:100%;height:' + g.floorY + 'px;background-color:#160D2A;background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.03) 0 2px,transparent 2px 96px)"></div>');
+    h.push('<div class="abs" style="left:0;top:0;width:100%;height:' + g.floorY + 'px;background-color:#3B2D66;background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 2px,transparent 2px 96px)"></div>');
+    // soft spotlight on the wall behind the head so the hair reads as a silhouette
+    h.push('<div class="abs" style="left:' + (g.figX - 90) + 'px;top:' + (g.figY - 150) + 'px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(255,226,150,.30) 0,rgba(255,170,190,.14) 38%,transparent 68%)"></div>');
     h.push('<div class="abs" style="left:0;top:46px;width:100%;height:3px;background:#FF2E88;box-shadow:0 0 14px 2px rgba(255,46,136,.7)"></div>');
     h.push('<div class="abs" style="left:0;top:56px;width:100%;height:3px;background:#2EE6FF;box-shadow:0 0 14px 2px rgba(46,230,255,.6)"></div>');
     h.push('<div class="abs" style="left:0;top:' + g.floorY + 'px;width:100%;height:400px;background-color:#0E0A24;background-image:radial-gradient(circle at 20% 30%,#2EE6FF 0 3px,transparent 4px),radial-gradient(circle at 70% 60%,#FF2E88 0 3px,transparent 4px),radial-gradient(circle at 45% 85%,#FFD23F 0 2px,transparent 3px),radial-gradient(circle at 85% 15%,#8B5CFF 0 4px,transparent 5px);background-size:64px 64px"></div>');
