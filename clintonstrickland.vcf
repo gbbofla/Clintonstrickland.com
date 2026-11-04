@@ -1,0 +1,16 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Strickland;Clinton;;;
+FN:Clinton Strickland
+ORG:Ironline Planning Co.
+TITLE:Schedule & Project Controls Lead
+EMAIL;TYPE=INTERNET,PREF:clinton.strickland3@gmail.com
+URL:https://clintonstrickland.com
+item1.URL:https://www.linkedin.com/in/csiii
+item1.X-ABLabel:LinkedIn
+item2.URL:https://github.com/gbbofla
+item2.X-ABLabel:GitHub
+X-SOCIALPROFILE;TYPE=linkedin:https://www.linkedin.com/in/csiii
+ADR;TYPE=WORK:;;;Port St. Lucie;FL;;USA
+NOTE:Schedule & project controls for data center and advanced manufacturing delivery. Résumé: https://clintonstrickland.com/resume.html
+END:VCARD

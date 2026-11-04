@@ -2,7 +2,11 @@
 (function () {
   'use strict';
 
-  var ACCENT = '#FFD23F', HOODIE = '#2F5BEA', SKIN = '#B9784A';
+  var ACCENT = '#FFD23F', HOODIE = '#6F8FAA', SKIN = '#B9784A'; // faded whale-blue sweatshirt
+  var BOOKING_URL = 'https://calendly.com/clinton-strickland3/30min'; // paste a Calendly or Google booking link here; until then the button opens a prefilled email
+  var VCARD = 'clintonstrickland.vcf';
+  // Real quotes only. Each: { q: 'quote', name: 'Full Name', role: 'Title, Company' }. The REVIEWS stage appears once this has entries.
+  var REVIEWS = [];
   var GLOW = ACCENT + '59';
   var NEON = ['#FF2E88', '#2EE6FF', '#FFD23F', '#39FF88', '#8B5CFF'];
   var REDUCE = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
@@ -11,6 +15,9 @@
   var LINKEDIN = 'https://www.linkedin.com/in/csiii';
   var GITHUB = 'https://github.com/gbbofla';
   var RESUME = 'resume.html';
+  var CALL = BOOKING_URL || ('mailto:' + EMAIL + '?subject=' + encodeURIComponent('15-minute call') + '&body=' + encodeURIComponent('Hi Clinton,\n\nI found your site and would like to set up a 15-minute call. A few times that work for me:\n\n- \n- \n\nThanks,\n'));
+  var CALL_EXT = !!BOOKING_URL;
+  if (window.__previewReviews) REVIEWS = window.__previewReviews; // used only by local design previews
 
   var viewport = document.getElementById('viewport');
   var stage = document.getElementById('stage');
@@ -50,11 +57,13 @@
       rows: [{ t: 'Blacktop Dust — novella, Baltimore’s underground bike scene' }, { t: 'Sun & Steel — solarpunk Afro-futurist comic' }, { t: 'Shreddy Ruxpin — doom metal concept album series' }] },
     { id: 'contact', n: '05', label: 'CONTACT', col: '#A78BFA', title: 'Let’s build something.',
       body: 'Open to data center schedule, project controls and pre-construction roles, and to good collaborators.',
-      rows: [{ t: EMAIL, href: 'mailto:' + EMAIL }, { t: 'linkedin.com/in/csiii', href: LINKEDIN }, { t: 'github.com/gbbofla', href: GITHUB }, { t: 'Web résumé', href: RESUME, same: true }, { t: 'Port St. Lucie, FL' }] },
+      rows: [{ t: 'Book a 30-minute call', href: CALL }, { t: 'Add me to your contacts', href: VCARD }, { t: EMAIL, href: 'mailto:' + EMAIL }, { t: 'linkedin.com/in/csiii', href: LINKEDIN }, { t: 'github.com/gbbofla', href: GITHUB }, { t: 'Web résumé', href: RESUME, same: true }, { t: 'Port St. Lucie, FL' }] },
     { id: 'lab', n: '06', label: 'LAB', col: '#FF8A3D', title: 'Data center lab',
       body: 'Independent planning work applying owner’s-side schedule controls to hyperscale data center programs. Campus A figures are planning estimates for a hypothetical program. The Excel model and a P6-importable schedule are available on request.',
       rows: [{ t: 'Campus A: integrated master schedule for a 400 MW AI campus (hypothetical)' }, { t: 'Utility, entitlement, design, long-lead electrical gear, shell, fit-out and commissioning linked; a 110-week transformer lead sets the date, and reserving it early saves 12 weeks' }, { t: 'Schedule risk: 3,000-iteration Monte Carlo, P50 Nov 2029, P80 Jan 2030' }, { t: 'Capacity: 963 IT MW and 1,204 MW of facility load, delivery paths priced at $0.5M per MW-month of delay' }, { t: 'White paper: Recovering 126 Days' }, { t: 'White paper: Pre-Construction for Hyperscale AI Data Centers' }, { t: 'White paper: The Pandemic That Rewired the Construction Schedule' }] }
   ];
+
+  if (REVIEWS.length) APPS.push({ id: 'reviews', n: '07', label: 'REVIEWS', col: '#FFD23F' });
 
   var NOTIFS = [
     { from: 'NEW HIGH SCORE · CAMPUS C', text: 'Handed over 4 weeks ahead of the approved baseline.', app: 'work', n: '02', col: '#2EE6FF' },
@@ -62,6 +71,10 @@
     { from: 'COST CONTROL · CAMPUS B', text: 'Overrun held to $630K against a ~$1.2M forecast.', app: 'work', n: '02', col: '#2EE6FF' },
     { from: 'NEW RESEARCH', text: 'A 400 MW AI campus, scheduled from utility to commissioning.', app: 'lab', n: '06', col: '#FF8A3D' }
   ];
+  REVIEWS.slice(0, 2).forEach(function (r, i) {
+    var short = r.q.length > 90 ? r.q.slice(0, 87).replace(/\s+\S*$/, '') + '…' : r.q;
+    NOTIFS.splice(1 + i * 2, 0, { from: '2P SAYS · ' + r.name.toUpperCase(), text: '“' + short + '”', app: 'reviews', n: '07', col: '#FFD23F' });
+  });
 
   var LINES = [
     'I took over a $650M data center campus forecasting 206 days late.',
@@ -104,6 +117,8 @@
     mail: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>',
     brief: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>',
     code: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 8l-4 4 4 4"/><path d="M16 8l4 4-4 4"/></svg>',
+    cal: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/></svg>',
+    save: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M19 8v6"/><path d="M16 11h6"/></svg>',
     search: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F2EEF8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>'
   };
 
@@ -125,10 +140,22 @@
   }
 
   function figureHTML() {
-    var p = function (l, t, w, h, r, bg, extra) { return '<span class="abs" style="left:' + l + 'px;top:' + t + 'px;width:' + w + 'px;height:' + h + 'px;border-radius:' + r + ';background:' + bg + ';' + (extra || '') + '"></span>'; };
-    return p(40, 184, 38, 104, '4px', '#2B3A55') + p(82, 184, 38, 104, '4px', '#2B3A55') +
-      p(36, 286, 44, 18, '6px 6px 4px 4px', '#EDEAE3') + p(80, 286, 44, 18, '6px 6px 4px 4px', '#EDEAE3') +
-      p(38, 170, 84, 16, '3px', '#1E2A3A') +
+    var p = function (l, t, w, h, r, bg, extra) { return '<span class="abs" style="left:' + l + 'px;top:' + t + 'px;width:' + w + 'px;height:' + h + 'px;border-radius:' + r + ';background-color:' + bg + ';' + (extra || '') + '"></span>'; };
+    // long black afro with grey flecks
+    var fleck = 'background-image:radial-gradient(circle,rgba(170,170,178,.75) 0 .8px,transparent 1.2px),radial-gradient(circle,rgba(120,120,128,.7) 0 .7px,transparent 1.1px),radial-gradient(circle,rgba(150,150,158,.6) 0 .7px,transparent 1.1px);background-size:17px 13px,11px 19px,23px 17px;background-position:3px 4px,8px 1px,14px 10px';
+    // white / grey / infrared runner, drawn blocky, no logos
+    var shoe = function (x, heelLeft) {
+      return p(x, 283, 44, 19, '8px 9px 3px 3px', '#F4F2EC') +
+        p(x, 293, 44, 6, '0', '#9AA0A8') +
+        p(x - 1, 299, 46, 6, '2px', '#E4E1D8', 'box-shadow:inset 0 -2px 0 #FF3B5C') +
+        p(heelLeft ? x + 2 : x + 30, 286, 12, 9, '3px', '#FF3B5C') +
+        p(heelLeft ? x + 30 : x + 4, 286, 10, 4, '2px', '#FF3B5C') +
+        p(heelLeft ? x + 4 : x + 31, 296, 8, 4, '1px', '#2A2F3A', 'box-shadow:0 0 0 1px #FF3B5C');
+    };
+    return p(24, -30, 112, 100, '48px 48px 34px 34px', '#141012', fleck) +
+      p(40, 184, 38, 104, '4px', '#22252D') + p(82, 184, 38, 104, '4px', '#22252D') +
+      shoe(35, true) + shoe(81, false) +
+      p(38, 170, 84, 16, '3px', '#16181E') +
       p(34, 72, 92, 104, '14px 14px 8px 8px', HOODIE) + p(60, 72, 40, 12, '0 0 12px 12px', 'rgba(0,0,0,.22)') +
       p(16, 80, 26, 72, '10px', HOODIE, 'transform:rotate(16deg)') + p(118, 80, 26, 72, '10px', HOODIE, 'transform:rotate(-16deg)') +
       p(34, 128, 44, 22, '10px', HOODIE, 'filter:brightness(.88)') + p(82, 128, 44, 22, '10px', HOODIE, 'filter:brightness(.88)') +
@@ -136,7 +163,7 @@
       p(70, 104, 20, 38, '3px', '#2EE6FF') +
       p(56, 122, 16, 20, '6px', SKIN) + p(88, 122, 16, 20, '6px', SKIN) +
       p(50, 8, 60, 60, '12px', SKIN, 'box-shadow:inset 0 -16px 18px ' + GLOW) +
-      p(47, 0, 66, 20, '10px 10px 3px 3px', '#1A1410') +
+      p(46, -4, 68, 22, '14px 14px 6px 6px', '#141012', fleck) +
       p(66, 42, 7, 6, '3px', '#1A1410') + p(87, 42, 7, 6, '3px', '#1A1410') + p(73, 56, 14, 3, '2px', '#1A1410');
   }
 
@@ -248,12 +275,15 @@
     var startBtn = function (size) {
       return '<button type="button" data-act="enter" style="display:flex;align-items:center;gap:10px;min-height:52px;padding:0 26px;border-radius:6px;border:0;background:' + ACCENT + ';color:#0B0614;font-family:var(--pixel);font-size:' + size + 'px;cursor:pointer;box-shadow:inset 0 -5px 0 rgba(0,0,0,.25),0 0 24px ' + GLOW + '">' + ICON.play + 'PRESS START</button>';
     };
+    var sideBtn = function (href, label, col, icon, ext, size, h) {
+      return '<a href="' + href + '"' + (ext ? ' target="_blank" rel="noopener"' : '') + ' style="display:flex;align-items:center;justify-content:center;gap:8px;min-height:' + h + 'px;padding:0 16px;border-radius:6px;border:2px solid ' + col + ';background:rgba(11,6,20,.75);color:' + col + ';font-family:var(--pixel);font-size:' + size + 'px;text-decoration:none;box-shadow:0 0 14px ' + col + '33">' + icon + '<span style="color:#F2EEF8">' + label + '</span></a>';
+    };
     if (!UC && !mobile) {
       h.push('<div class="abs t-fade" data-el="hud" style="left:0;top:70px;width:1280px;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center">');
       h.push('<div style="' + chipBox + ';font-size:13px">' + dot + 'Open to data center schedule, project controls &amp; pre-construction roles</div>');
       h.push('<h1 class="px" style="margin:0;font-size:34px;line-height:1.3;color:#FF2E88;text-shadow:0 0 6px rgba(255,46,136,.9),0 0 24px rgba(255,46,136,.6)">BE ME FOR A MINUTE</h1>');
       h.push('<p style="margin:0;max-width:600px;font-size:17px;line-height:1.45;color:#D9D2EA">That’s me, Clinton Strickland, on my phone in the arcade. Schedule &amp; project controls lead, founder, world-builder. Step inside and see what I see.</p>');
-      h.push('<div style="display:flex;align-items:center;gap:18px">' + startBtn(13) + '<span class="px" style="font-size:10px;color:#A79FBF">OR SCROLL</span></div>');
+      h.push('<div style="display:flex;align-items:center;gap:14px">' + startBtn(13) + sideBtn(CALL, 'BOOK A CALL', '#2EE6FF', ICON.cal, CALL_EXT, 11, 52) + sideBtn(VCARD, 'SAVE CONTACT', '#FF2E88', ICON.save, false, 11, 52) + '</div>');
       h.push('</div>');
     }
     if (!UC && mobile) {
@@ -262,6 +292,7 @@
       h.push('<h1 class="px" style="margin:0;font-size:24px;line-height:1.45;color:#FF2E88;text-shadow:0 0 6px rgba(255,46,136,.9),0 0 20px rgba(255,46,136,.6)">BE ME FOR<br>A MINUTE</h1>');
       h.push('<p style="margin:0;font-size:15px;line-height:1.4;color:#D9D2EA">That’s me, Clinton, on my phone in the arcade. Tap me or swipe up to see what I see.</p>');
       h.push(startBtn(12));
+      h.push('<div style="display:flex;gap:10px;width:100%">' + sideBtn(CALL, 'BOOK CALL', '#2EE6FF', ICON.cal, CALL_EXT, 9, 44).replace('display:flex', 'flex:1 1 0;display:flex') + sideBtn(VCARD, 'SAVE ME', '#FF2E88', ICON.save, false, 9, 44).replace('display:flex', 'flex:1 1 0;display:flex') + '</div>');
       h.push('</div>');
     }
     if (UC) {
@@ -341,11 +372,12 @@
   }
   function dockHTML() {
     var item = function (href, label, col, icon, ext) {
-      return '<a href="' + href + '"' + (ext ? ' target="_blank" rel="noopener"' : '') + ' style="display:flex;flex-direction:column;align-items:center;gap:4px;min-height:54px;color:#F2EEF8;text-decoration:none;font-size:11px;font-weight:600"><span style="display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:8px;background:#16102A;border:2px solid ' + col + ';color:' + col + '">' + icon + '</span>' + label + '</a>';
+      return '<a href="' + href + '"' + (ext ? ' target="_blank" rel="noopener"' : '') + ' style="display:flex;flex-direction:column;align-items:center;gap:4px;min-height:54px;color:#F2EEF8;text-decoration:none;font-size:10.5px;font-weight:600;white-space:nowrap"><span style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;background:#16102A;border:2px solid ' + col + ';color:' + col + '">' + icon + '</span>' + label + '</a>';
     };
-    return '<nav aria-label="Quick links" style="flex-shrink:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:10px 14px 0;border-top:2px solid #2A1F4A">' +
-      item(RESUME, 'Résumé', '#FFD23F', ICON.file) + item('mailto:' + EMAIL, 'Email', '#FF2E88', ICON.mail) +
-      item(LINKEDIN, 'LinkedIn', '#2EE6FF', ICON.brief, true) + item(GITHUB, 'GitHub', '#39FF88', ICON.code, true) + '</nav>';
+    return '<nav aria-label="Quick links" style="flex-shrink:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;padding:10px 10px 0;border-top:2px solid #2A1F4A">' +
+      item(CALL, 'Call', '#2EE6FF', ICON.cal, CALL_EXT) + item(VCARD, 'Save', '#FF2E88', ICON.save) +
+      item(RESUME, 'Résumé', '#FFD23F', ICON.file) + item('mailto:' + EMAIL, 'Email', '#A78BFA', ICON.mail) +
+      item(LINKEDIN, 'LinkedIn', '#39FF88', ICON.brief, true) + '</nav>';
   }
   function lockHTML(scan) {
     var ok = scan === 'ok';
@@ -421,6 +453,18 @@
       '<a href="' + RESUME + '" style="align-self:flex-start;font-weight:700">Full web résumé ›</a></div>';
     return h;
   }
+  function reviewsHTML() {
+    var h = '<div class="scroll" style="padding:18px 20px 24px;display:flex;flex-direction:column;gap:14px">' +
+      '<div class="px" style="font-size:10px;color:#FFD23F">07 · REVIEWS</div>' +
+      '<h2 class="px" style="margin:0;font-size:18px;line-height:1.5;color:#FFD23F">2P SAYS</h2>' +
+      '<p style="margin:0;font-size:14px;line-height:1.45;color:#D9D2EA">From people I’ve built with.</p>';
+    REVIEWS.forEach(function (r) {
+      h += '<figure style="margin:0;display:flex;flex-direction:column;gap:10px;padding:16px;border-radius:14px;background:#16102A;border:2px solid #2A1F4A">' +
+        '<blockquote style="margin:0;font-size:17px;font-weight:600;line-height:1.45;color:#F2EEF8">“' + esc(r.q) + '”</blockquote>' +
+        '<figcaption style="display:flex;flex-direction:column;gap:2px"><span style="font-size:14px;font-weight:800">' + esc(r.name) + '</span><span class="mono" style="font-size:12px;color:#A79FBF">' + esc(r.role) + '</span></figcaption></figure>';
+    });
+    return h + '</div>';
+  }
   function genericHTML(a, holo) {
     var h = '<div class="scroll" style="padding:' + (holo ? '18px 20px 24px' : '32px 18px 16px') + ';display:flex;flex-direction:column;gap:14px">' + (holo ? '' : backBtn()) +
       '<div class="px" aria-hidden="true" style="display:flex;align-items:flex-end;height:84px;padding:0 14px 12px;border-radius:10px;font-size:32px;line-height:1;background-color:' + a.col + ';background-image:linear-gradient(rgba(0,0,0,.12) 50%,transparent 50%);background-size:100% 4px;color:#0B0614;box-shadow:0 0 24px ' + a.col + '55">' + a.n + '</div>' +
@@ -467,7 +511,7 @@
     holoKey = key;
     if (!key) return; // keep old content while the panel collapses
     var a = APPS.filter(function (x) { return x.id === key; })[0];
-    els.holoBody.innerHTML = key === 'work' ? workHTML(true) : genericHTML(a, true);
+    els.holoBody.innerHTML = key === 'work' ? workHTML(true) : key === 'reviews' ? reviewsHTML() : genericHTML(a, true);
     els.holoLabel.textContent = 'HOLO · ' + a.n + ' ' + a.label;
     if (switching) glitch();
   }
