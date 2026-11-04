@@ -192,10 +192,14 @@
     if (!UC) {
       h.push('<div class="abs t-pov" data-el="pov" style="inset:0">');
       if (!mobile) {
-        h.push('<div class="abs" style="left:80px;top:190px;width:330px;display:flex;flex-direction:column;gap:16px" aria-live="off">');
+        h.push('<div class="abs t-fade" data-el="mono" style="left:80px;top:190px;width:330px;display:flex;flex-direction:column;gap:16px" aria-live="off">');
         h.push('<div class="px" style="font-size:10px;letter-spacing:.06em;color:#2EE6FF">P1 THOUGHTS</div>');
         LINES.forEach(function (t, i) { h.push('<div class="line" data-line="' + i + '" style="line-height:1.3">' + esc(t) + '</div>'); });
         h.push('</div>');
+      }
+      // hands + phone move together when the phone tilts to project
+      h.push('<div class="abs t-hold" data-el="hold" style="inset:0;transform-origin:' + (mobile ? '195px 64px' : '640px 420px') + '">');
+      if (!mobile) {
         h.push('<div class="abs" aria-hidden="true" style="left:350px;top:650px;width:160px;height:240px;border-radius:30px;background:' + HOODIE + ';transform:rotate(14deg)"></div>');
         h.push('<div class="abs" aria-hidden="true" style="left:770px;top:650px;width:160px;height:240px;border-radius:30px;background:' + HOODIE + ';transform:rotate(-14deg)"></div>');
         h.push('<div class="abs" aria-hidden="true" style="left:424px;top:470px;width:84px;height:230px;border-radius:26px;background:' + SKIN + ';transform:rotate(-6deg)"></div>');
@@ -215,9 +219,26 @@
         h.push('<div class="abs" aria-hidden="true" style="left:462px;top:548px;width:34px;height:92px;border-radius:17px;background:' + SKIN + ';transform:rotate(-22deg);box-shadow:-2px 4px 10px rgba(0,0,0,.25)"></div>');
         h.push('<div class="abs" aria-hidden="true" style="left:784px;top:548px;width:34px;height:92px;border-radius:17px;background:' + SKIN + ';transform:rotate(22deg);box-shadow:2px 4px 10px rgba(0,0,0,.25)"></div>');
       }
+      h.push('</div>'); // end hold
+
+      // hologram: light beam + projected panel
+      var beam = mobile
+        ? 'left:30px;top:450px;width:330px;height:56px;clip-path:polygon(0% 0%,100% 0%,74% 100%,26% 100%);background:linear-gradient(0deg,rgba(46,230,255,.55),rgba(46,230,255,.04))'
+        : 'left:536px;top:60px;width:120px;height:690px;clip-path:polygon(0% 14%,100% 0%,100% 100%,0% 84%);background:linear-gradient(90deg,rgba(46,230,255,.5),rgba(46,230,255,.04))';
+      h.push('<div class="abs beam" data-el="beam" aria-hidden="true" style="' + beam + '"></div>');
+      var panel = mobile
+        ? 'left:14px;top:62px;width:362px;height:390px;transform-origin:50% 100%'
+        : 'left:650px;top:72px;width:570px;height:664px;transform-origin:0% 50%';
+      h.push('<section class="holo" data-el="holo" tabindex="-1" aria-label="Hologram" style="' + panel + '"><div class="holo-inner">' +
+        '<div style="flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 10px 10px 16px;border-bottom:1px solid rgba(46,230,255,.35)">' +
+        '<span class="px holo-label" data-el="holoLabel" style="font-size:10px;color:#8FF3FF"></span>' +
+        '<button type="button" data-act="home" style="display:flex;align-items:center;gap:6px;min-height:40px;padding:0 12px;border-radius:6px;border:1px solid rgba(143,243,255,.6);background:rgba(46,230,255,.08);color:#CFFBFF;font-family:var(--pixel);font-size:9px;cursor:pointer">✕ CLOSE</button></div>' +
+        '<div class="holo-content" data-el="holoBody"></div>' +
+        '<div class="holo-scan" aria-hidden="true"></div><div class="holo-sweep" aria-hidden="true"></div>' +
+        '</div><div class="holo-base" aria-hidden="true"></div></section>');
       var look = 'display:flex;align-items:center;gap:8px;min-height:46px;padding:0 16px 0 12px;border-radius:6px;border:2px solid rgba(242,238,248,.5);background:rgba(11,6,20,.7);color:#F2EEF8;font-family:var(--pixel);font-size:10px;cursor:pointer;' + (mobile ? 'right:12px;top:10px' : 'left:80px;top:640px');
       h.push('<button type="button" class="abs" data-act="exit" style="' + look + '">' + ICON.up + 'LOOK UP</button>');
-      if (mobile) h.push('<div class="abs" data-el="caption" style="left:24px;top:776px;width:342px;font-size:14px;line-height:1.4;font-weight:600;color:#F2EEF8"></div>');
+      if (mobile) h.push('<div class="abs t-fade" data-el="caption" style="left:24px;top:776px;width:342px;font-size:14px;line-height:1.4;font-weight:600;color:#F2EEF8"></div>');
       h.push('</div>');
     }
 
@@ -310,6 +331,7 @@
     els.cabScreens = stage.querySelectorAll('.cab-screen');
     els.lines = stage.querySelectorAll('[data-line]');
     screenKey = null;
+    holoKey = null;
     update();
   }
 
@@ -353,9 +375,22 @@
     return '<div style="display:flex;flex-direction:column;gap:4px"><span style="position:relative;align-self:flex-start;padding-right:4px;background:' + (labelBg || 'transparent') + ';font-size:12px;' + (strong ? 'font-weight:700;color:#F2EEF8' : 'color:#A79FBF') + '">' + label + '</span>' +
       '<div style="height:10px;background:#2A2340"><div style="width:' + pct + '%;height:10px;background:' + col + (strong ? ';box-shadow:0 0 10px ' + col + '80' : '') + '"></div></div></div>';
   }
-  function workHTML() {
+  function remoteHTML() {
+    var cur = APPS.filter(function (a) { return a.id === st.app; })[0];
+    var h = '<div class="scroll" style="padding:32px 16px 12px;display:flex;flex-direction:column;gap:12px">' +
+      '<div class="px" style="font-size:10px;color:#2EE6FF">▲ PROJECTING</div>' +
+      '<div style="font-size:22px;font-weight:800;line-height:1.1">' + esc(cur.n + ' · ' + cur.label.charAt(0) + cur.label.slice(1).toLowerCase()) + '</div>' +
+      '<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">';
+    APPS.forEach(function (a) {
+      var on = a.id === st.app;
+      h += '<button type="button" data-act="open" data-app="' + a.id + '"' + (on ? ' aria-current="true"' : '') + ' style="display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-height:66px;padding:8px;border-radius:8px;border:2px solid ' + (on ? a.col : a.col + '55') + ';background:' + (on ? a.col + '26' : '#16102A') + ';text-align:left;cursor:pointer">' +
+        '<span style="' + chip(a.col, 26).replace('font-size:12px', 'font-size:9px') + '">' + a.n + '</span><span class="px" style="font-size:8px;line-height:1.3;color:#F2EEF8">' + a.label + '</span></button>';
+    });
+    return h + '</div><button type="button" data-act="home" style="display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;border-radius:8px;border:2px solid #2A1F4A;background:#16102A;color:#F2EEF8;font-family:var(--pixel);font-size:10px;cursor:pointer">■ STOP PROJECTION</button></div>';
+  }
+  function workHTML(holo) {
     var card = 'display:flex;flex-direction:column;gap:12px;padding:14px;border-radius:14px;background:#16102A;border:2px solid #2A1F4A';
-    var h = '<div class="scroll" style="padding:32px 18px 16px;display:flex;flex-direction:column;gap:14px">' + backBtn() +
+    var h = '<div class="scroll" style="padding:' + (holo ? '18px 20px 24px' : '32px 18px 16px') + ';display:flex;flex-direction:column;gap:14px">' + (holo ? '' : backBtn()) +
       '<div class="px" style="font-size:10px;color:#2EE6FF">02 · WORK</div>' +
       '<h2 class="px" style="margin:0;font-size:18px;line-height:1.5;color:#FFD23F;text-shadow:0 0 10px rgba(255,210,63,.45)">HI-SCORE TABLE</h2>' +
       '<p style="margin:0;font-size:14px;line-height:1.45;color:#D9D2EA">Schedule and project controls since 2018: $150M+ directed as owner’s representative within a $500M+ portfolio, 75% of projects ahead of baseline, zero lost-time incidents.</p>' +
@@ -386,8 +421,8 @@
       '<a href="' + RESUME + '" style="align-self:flex-start;font-weight:700">Full web résumé ›</a></div>';
     return h;
   }
-  function genericHTML(a) {
-    var h = '<div class="scroll" style="padding:32px 18px 16px;display:flex;flex-direction:column;gap:14px">' + backBtn() +
+  function genericHTML(a, holo) {
+    var h = '<div class="scroll" style="padding:' + (holo ? '18px 20px 24px' : '32px 18px 16px') + ';display:flex;flex-direction:column;gap:14px">' + (holo ? '' : backBtn()) +
       '<div class="px" aria-hidden="true" style="display:flex;align-items:flex-end;height:84px;padding:0 14px 12px;border-radius:10px;font-size:32px;line-height:1;background-color:' + a.col + ';background-image:linear-gradient(rgba(0,0,0,.12) 50%,transparent 50%);background-size:100% 4px;color:#0B0614;box-shadow:0 0 24px ' + a.col + '55">' + a.n + '</div>' +
       '<div class="px" style="font-size:10px;color:' + a.col + '">' + a.n + ' · ' + a.label + '</div>' +
       '<h2 style="margin:0;font-size:28px;font-weight:800;line-height:1.05;letter-spacing:-.02em">' + esc(a.title) + '</h2>' +
@@ -401,7 +436,8 @@
   function renderScreen() {
     if (!els.screenBody) return;
     var scan = st.stage === 2 ? st.scan : null;
-    var key = scan ? 'lock:' + scan : (st.app ? 'app:' + st.app : 'home:' + (st.tick % NOTIFS.length));
+    renderHolo();
+    var key = scan ? 'lock:' + scan : (st.app ? 'remote:' + st.app : 'home:' + (st.tick % NOTIFS.length));
     if (key === screenKey) return;
     // Keep focus position sane when the notification card rotates under a keyboard user.
     var active = document.activeElement;
@@ -414,12 +450,41 @@
     screenKey = key;
     var body;
     if (scan) body = lockHTML(scan);
-    else if (st.app === 'work') body = workHTML() + dockHTML();
-    else if (st.app) body = genericHTML(APPS.filter(function (a) { return a.id === st.app; })[0]) + dockHTML();
+    else if (st.app) body = remoteHTML() + dockHTML();
     else body = homeHTML() + dockHTML();
     els.screenBody.innerHTML = body;
     var sc = els.screenBody.querySelector('.scroll');
     if (sc) sc.scrollTop = keepScroll;
+  }
+
+  /* ------------------------------------------------------------------ hologram */
+  var holoKey = null, glitchTimer = null;
+  function renderHolo() {
+    if (!els.holoBody) return;
+    var key = st.stage === 2 && st.app ? st.app : null;
+    if (key === holoKey) return;
+    var switching = holoKey && key;
+    holoKey = key;
+    if (!key) return; // keep old content while the panel collapses
+    var a = APPS.filter(function (x) { return x.id === key; })[0];
+    els.holoBody.innerHTML = key === 'work' ? workHTML(true) : genericHTML(a, true);
+    els.holoLabel.textContent = 'HOLO · ' + a.n + ' ' + a.label;
+    if (switching) glitch();
+  }
+  function glitch() {
+    if (REDUCE || !els.holo) return;
+    els.holo.classList.remove('glitch');
+    void els.holo.offsetWidth; // restart the animation
+    els.holo.classList.add('glitch');
+    setTimeout(function () { if (els.holo) els.holo.classList.remove('glitch'); }, 260);
+  }
+  function scheduleGlitch() {
+    clearTimeout(glitchTimer);
+    if (REDUCE) return;
+    glitchTimer = setTimeout(function () {
+      if (holoKey) glitch();
+      scheduleGlitch();
+    }, 1800 + Math.random() * 2600);
   }
 
   /* ------------------------------------------------------------------ update */
@@ -468,6 +533,14 @@
     });
     if (els.caption) els.caption.textContent = LINES[li];
 
+    // projection: phone tilts away, beam + hologram panel appear
+    var proj = st.stage === 2 && !!st.app;
+    if (els.hold) els.hold.style.transform = proj ? (mobile ? 'translateY(436px) perspective(900px) rotateX(12deg)' : 'translateX(-250px) perspective(1200px) rotateY(18deg)') : 'none';
+    if (els.beam) els.beam.classList.toggle('on', proj);
+    if (els.holo) { els.holo.classList.toggle('on', proj); setInert(els.holo, !proj); }
+    if (els.mono) els.mono.style.opacity = proj ? 0 : 1;
+    if (els.caption) els.caption.style.opacity = proj ? 0 : 1;
+
     if (els.query) {
       var typed = (st.typed || REDUCE) && (REDUCE || st.tick % 4 !== 3);
       els.query.style.width = typed ? '33ch' : '0ch';
@@ -514,7 +587,12 @@
     else if (act === 'exit') go('out');
     else if (act === 'home') { st.app = null; update(); focusScreen(); }
     else if (act === 'skiplock') { clearTimers(); st.scan = null; update(); focusScreen(); }
-    else if (act === 'open') { st.app = t.getAttribute('data-app'); st.scan = null; update(); focusScreen(); }
+    else if (act === 'open') {
+      var fromRemote = !!st.app;
+      st.app = t.getAttribute('data-app'); st.scan = null; update();
+      if (fromRemote) { var b = els.screen && els.screen.querySelector('[aria-current="true"]'); if (b) b.focus({ preventScroll: true }); }
+      else if (els.holo) els.holo.focus({ preventScroll: true });
+    }
   });
 
   viewport.addEventListener('wheel', function (e) {
@@ -561,5 +639,6 @@
   fit();
 
   setInterval(function () { st.tick++; update(); }, 3800);
+  scheduleGlitch();
   setTimeout(function () { st.typed = true; update(); }, 500);
 })();
