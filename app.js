@@ -5,6 +5,7 @@
   var ACCENT = '#FFD23F', HOODIE = '#6F8FAA', SKIN = '#B9784A'; // faded whale-blue sweatshirt
   var BOOKING_URL = 'https://calendly.com/clinton-strickland3/30min'; // paste a Calendly or Google booking link here; until then the button opens a prefilled email
   var VCARD = 'clintonstrickland.vcf';
+  var CLIFFHANGER_BETA = ''; // public beta link; the PLAY THE BETA button appears once this is set
   // Real quotes only. Each: { q: 'quote', name: 'Full Name', role: 'Title, Company' }. The REVIEWS stage appears once this has entries.
   var REVIEWS = [];
   var GLOW = ACCENT + '59';
@@ -46,7 +47,7 @@
 
   // What I'm working on right now. status: short arcade tag; col: tag color; app: optional stage to jump to.
   var NOW = [
-    { t: 'Microdrama studio + app', status: 'COMING SOON', col: '#FF2E88', d: 'My own microdrama company and its app: short, binge-able drama series made for your phone. Name and launch details dropping soon.' },
+    { t: 'Cliffhanger', status: 'PUBLIC BETA', col: '#FF2E88', d: 'My microdrama company and its app: short, binge-able drama series made for your phone. The public beta is landing right here soon.', href: CLIFFHANGER_BETA, cta: 'PLAY THE BETA' },
     { t: 'Ironline Planning Co.', status: 'ACTIVE', col: '#39FF88', d: 'Owner’s-side planning, scheduling and project controls for data center, advanced manufacturing and industrial work.' },
     { t: 'Campus A research', status: 'IN PROGRESS', col: '#2EE6FF', d: 'An integrated master schedule and Monte Carlo risk model for a hypothetical 400 MW AI campus.', app: 'lab' },
     { t: 'Learning guitar', status: 'LEVELING UP', col: '#FFD23F', d: 'Teaching myself guitar, one chord at a time. Yes, that’s what I was searching for in the arcade.' },
@@ -78,7 +79,7 @@
   if (REVIEWS.length) APPS.push({ id: 'reviews', n: '07', label: 'REVIEWS', col: '#FFD23F' });
 
   var NOTIFS = [
-    { from: 'NOW PLAYING', text: 'Building a microdrama studio and app. Details dropping soon.', app: 'now', n: '00', col: '#7CFFCB' },
+    { from: 'NOW PLAYING \u00b7 CLIFFHANGER', text: 'My microdrama app. Public beta landing here soon.', app: 'now', n: '00', col: '#7CFFCB' },
     { from: 'NEW HIGH SCORE · CAMPUS C', text: 'Handed over 4 weeks ahead of the approved baseline.', app: 'work', n: '02', col: '#2EE6FF' },
     { from: 'COMEBACK · CAMPUS B', text: '206 days late at takeover. Delivered 126 days ahead of that forecast.', app: 'work', n: '02', col: '#2EE6FF' },
     { from: 'COST CONTROL · CAMPUS B', text: 'Overrun held to $630K against a ~$1.2M forecast.', app: 'work', n: '02', col: '#2EE6FF' },
@@ -478,6 +479,7 @@
         '<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px"><span style="font-size:17px;font-weight:800">' + esc(it.t) + '</span>' +
         '<span class="px" style="padding:5px 8px;border-radius:4px;border:2px solid ' + it.col + ';color:' + it.col + ';font-size:8px;white-space:nowrap">' + esc(it.status) + '</span></div>' +
         '<span style="font-size:14px;line-height:1.45;color:#D9D2EA">' + esc(it.d) + '</span>' +
+        (it.href ? '<a href="' + it.href + '"' + (/^https?:/.test(it.href) ? ' target="_blank" rel="noopener"' : '') + ' style="align-self:flex-start;display:flex;align-items:center;min-height:40px;padding:0 14px;border-radius:6px;background:' + it.col + ';color:#0B0614;font-family:var(--pixel);font-size:9px;text-decoration:none">\u25B6 ' + esc(it.cta || 'OPEN') + '</a>' : '') +
         (it.app ? '<button type="button" data-act="open" data-app="' + it.app + '" style="align-self:flex-start;min-height:36px;padding:0 12px;border-radius:6px;border:1px solid rgba(242,238,248,.5);background:transparent;color:#F2EEF8;font-family:var(--pixel);font-size:9px;cursor:pointer">OPEN ' + esc(APPS.filter(function (a) { return a.id === it.app; })[0].label) + ' ›</button>' : '') +
         '</li>';
     });
