@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Tour Room · Clinton Strickland</title>
+<meta name="description" content="Every city Clinton Strickland has played: one gig poster per stop.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0B0614">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/anton-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="tour.css?v=1">
+</head>
+<body>
+<div class="tour">
+  <nav class="tour-top" aria-label="Site">
+    <a class="brand" href="./">CLINTON STRICKLAND</a>
+    <a class="btn" href="./">&#9664; Back to the arcade</a>
+  </nav>
+  <header class="tour-head">
+    <h1 class="neon">THE TOUR ROOM</h1>
+    <p class="tour-sub">Every city I&#8217;ve played. Tap a poster for the story.</p>
+    <span class="beta-tag">PREVIEW</span>
+  </header>
+  <main id="tour"></main>
+</div>
+<dialog class="zoom" id="zoom" aria-label="Poster">
+  <div class="zoom-inner">
+    <button type="button" class="zoom-close">&#10005; CLOSE</button>
+    <div class="zoom-poster"></div>
+  </div>
+</dialog>
+<script src="tour.js?v=1" defer></script>
+</body>
+</html>
