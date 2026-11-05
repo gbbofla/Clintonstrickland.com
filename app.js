@@ -44,7 +44,19 @@
     { world: 'scale(1.3)', blur: 9, bright: 0.75, fig: 'scale(7)', figO: 0, vig: 'inset 0 0 220px 150px rgba(5,3,10,.95)', vigM: 'inset 0 0 140px 70px rgba(5,3,10,.95)', bar: 64, pov: 1, povT: 'none', povTm: 'none', hud: 0, where: 'PLAYER 1' }
   ];
 
+  // What I'm working on right now. status: short arcade tag; col: tag color; app: optional stage to jump to.
+  var NOW = [
+    { t: 'Microdrama studio + app', status: 'COMING SOON', col: '#FF2E88', d: 'My own microdrama company and its app: short, binge-able drama series made for your phone. Name and launch details dropping soon.' },
+    { t: 'Ironline Planning Co.', status: 'ACTIVE', col: '#39FF88', d: 'Owner’s-side planning, scheduling and project controls for data center, advanced manufacturing and industrial work.' },
+    { t: 'Campus A research', status: 'IN PROGRESS', col: '#2EE6FF', d: 'An integrated master schedule and Monte Carlo risk model for a hypothetical 400 MW AI campus.', app: 'lab' },
+    { t: 'Learning guitar', status: 'LEVELING UP', col: '#FFD23F', d: 'Teaching myself guitar, one chord at a time. Yes, that’s what I was searching for in the arcade.' },
+    { t: 'Blacktop Dust', status: 'IN PROGRESS', col: '#A78BFA', d: 'A novella set in Baltimore’s underground bike scene.' },
+    { t: 'Sun & Steel', status: 'IN PROGRESS', col: '#A78BFA', d: 'A solarpunk Afro-futurist comic.' },
+    { t: 'Shreddy Ruxpin', status: 'IN PROGRESS', col: '#A78BFA', d: 'A doom metal concept album series.' }
+  ];
+
   var APPS = [
+    { id: 'now', n: '00', label: 'NOW PLAYING', col: '#7CFFCB' },
     { id: 'about', n: '01', label: 'ABOUT', col: ACCENT, title: 'I get schedules home.',
       body: 'I’m a schedule and project controls lead with eight years across data center, advanced manufacturing and industrial programs. I find what’s really driving the finish date, so owners see risk early and act before it reaches the critical path. Off the clock I build worlds: novels, comics, concept albums.',
       rows: [{ t: 'Based in Port St. Lucie, FL' }, { t: 'Founder, Ironline Planning Co. (2019)' }, { t: 'PMP · Certified ScrumMaster · OSHA 30' }, { t: 'MBA, Pepperdine University' }, { t: 'My rule: find the real constraint first.' }, { t: 'Express risk as days and dollars, not color codes.' }] },
@@ -66,6 +78,7 @@
   if (REVIEWS.length) APPS.push({ id: 'reviews', n: '07', label: 'REVIEWS', col: '#FFD23F' });
 
   var NOTIFS = [
+    { from: 'NOW PLAYING', text: 'Building a microdrama studio and app. Details dropping soon.', app: 'now', n: '00', col: '#7CFFCB' },
     { from: 'NEW HIGH SCORE · CAMPUS C', text: 'Handed over 4 weeks ahead of the approved baseline.', app: 'work', n: '02', col: '#2EE6FF' },
     { from: 'COMEBACK · CAMPUS B', text: '206 days late at takeover. Delivered 126 days ahead of that forecast.', app: 'work', n: '02', col: '#2EE6FF' },
     { from: 'COST CONTROL · CAMPUS B', text: 'Overrun held to $630K against a ~$1.2M forecast.', app: 'work', n: '02', col: '#2EE6FF' },
@@ -417,8 +430,8 @@
       '<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">';
     APPS.forEach(function (a) {
       var on = a.id === st.app;
-      h += '<button type="button" data-act="open" data-app="' + a.id + '"' + (on ? ' aria-current="true"' : '') + ' style="display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-height:66px;padding:8px;border-radius:8px;border:2px solid ' + (on ? a.col : a.col + '55') + ';background:' + (on ? a.col + '26' : '#16102A') + ';text-align:left;cursor:pointer">' +
-        '<span style="' + chip(a.col, 26).replace('font-size:12px', 'font-size:9px') + '">' + a.n + '</span><span class="px" style="font-size:8px;line-height:1.3;color:#F2EEF8">' + a.label + '</span></button>';
+      h += '<button type="button" data-act="open" data-app="' + a.id + '"' + (on ? ' aria-current="true"' : '') + ' style="display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-height:54px;padding:6px 8px;border-radius:8px;border:2px solid ' + (on ? a.col : a.col + '55') + ';background:' + (on ? a.col + '26' : '#16102A') + ';text-align:left;cursor:pointer">' +
+        '<span style="' + chip(a.col, 22).replace('font-size:12px', 'font-size:9px') + '">' + a.n + '</span><span class="px" style="font-size:8px;line-height:1.3;color:#F2EEF8">' + a.label + '</span></button>';
     });
     return h + '</div><button type="button" data-act="home" style="display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;border-radius:8px;border:2px solid #2A1F4A;background:#16102A;color:#F2EEF8;font-family:var(--pixel);font-size:10px;cursor:pointer">■ STOP PROJECTION</button></div>';
   }
@@ -454,6 +467,21 @@
       '<div style="font-size:13px;line-height:1.5;color:#A79FBF">MBA, Pepperdine · CM Certificate, Florida Atlantic University · BA, Political Science, Xavier University of Louisiana</div></div>' +
       '<a href="' + RESUME + '" style="align-self:flex-start;font-weight:700">Full web résumé ›</a></div>';
     return h;
+  }
+  function nowHTML() {
+    var h = '<div class="scroll" style="padding:18px 20px 24px;display:flex;flex-direction:column;gap:14px">' +
+      '<div class="px" style="font-size:10px;color:#7CFFCB">00 · NOW PLAYING</div>' +
+      '<h2 class="px" style="margin:0;font-size:18px;line-height:1.5;color:#7CFFCB">WHAT I’M WORKING ON</h2>' +
+      '<p style="margin:0;font-size:14px;line-height:1.45;color:#D9D2EA">Everything currently on my screen, work and play.</p><ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px">';
+    NOW.forEach(function (it) {
+      h += '<li style="display:flex;flex-direction:column;gap:8px;padding:14px;border-radius:12px;background:#16102A;border:2px solid #2A1F4A">' +
+        '<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px"><span style="font-size:17px;font-weight:800">' + esc(it.t) + '</span>' +
+        '<span class="px" style="padding:5px 8px;border-radius:4px;border:2px solid ' + it.col + ';color:' + it.col + ';font-size:8px;white-space:nowrap">' + esc(it.status) + '</span></div>' +
+        '<span style="font-size:14px;line-height:1.45;color:#D9D2EA">' + esc(it.d) + '</span>' +
+        (it.app ? '<button type="button" data-act="open" data-app="' + it.app + '" style="align-self:flex-start;min-height:36px;padding:0 12px;border-radius:6px;border:1px solid rgba(242,238,248,.5);background:transparent;color:#F2EEF8;font-family:var(--pixel);font-size:9px;cursor:pointer">OPEN ' + esc(APPS.filter(function (a) { return a.id === it.app; })[0].label) + ' ›</button>' : '') +
+        '</li>';
+    });
+    return h + '</ul></div>';
   }
   function reviewsHTML() {
     var h = '<div class="scroll" style="padding:18px 20px 24px;display:flex;flex-direction:column;gap:14px">' +
@@ -513,7 +541,7 @@
     holoKey = key;
     if (!key) return; // keep old content while the panel collapses
     var a = APPS.filter(function (x) { return x.id === key; })[0];
-    els.holoBody.innerHTML = key === 'work' ? workHTML(true) : key === 'reviews' ? reviewsHTML() : genericHTML(a, true);
+    els.holoBody.innerHTML = key === 'work' ? workHTML(true) : key === 'now' ? nowHTML() : key === 'reviews' ? reviewsHTML() : genericHTML(a, true);
     els.holoLabel.textContent = 'HOLO · ' + a.n + ' ' + a.label;
     if (switching) glitch();
   }
