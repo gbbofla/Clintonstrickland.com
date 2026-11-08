@@ -23,6 +23,9 @@
   var viewport = document.getElementById('viewport');
   var stage = document.getElementById('stage');
   var st = { stage: 0, app: null, scan: null, tick: 0, typed: false };
+  // Pause control for everything that moves on its own (WCAG 2.2.2). Starts paused for reduced-motion users.
+  var STILL = REDUCE;
+  try { var pref = localStorage.getItem('cs-motion'); if (pref === 'off') STILL = true; else if (pref === 'on') STILL = false; } catch (e) { /* storage unavailable */ }
   var device = null, L = null, els = {}, screenKey = null, timers = [], wheelLock = false, touchY = null;
 
   function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
@@ -266,11 +269,11 @@
 
       // hologram: light beam + projected panel
       var beam = mobile
-        ? 'left:30px;top:450px;width:330px;height:56px;clip-path:polygon(0% 0%,100% 0%,74% 100%,26% 100%);background:linear-gradient(0deg,rgba(46,230,255,.55),rgba(46,230,255,.04))'
+        ? 'left:30px;top:414px;width:330px;height:48px;clip-path:polygon(0% 0%,100% 0%,74% 100%,26% 100%);background:linear-gradient(0deg,rgba(46,230,255,.55),rgba(46,230,255,.04))'
         : 'left:536px;top:60px;width:120px;height:690px;clip-path:polygon(0% 14%,100% 0%,100% 100%,0% 84%);background:linear-gradient(90deg,rgba(46,230,255,.5),rgba(46,230,255,.04))';
       h.push('<div class="abs beam" data-el="beam" aria-hidden="true" style="' + beam + '"></div>');
       var panel = mobile
-        ? 'left:14px;top:62px;width:362px;height:390px;transform-origin:50% 100%'
+        ? 'left:14px;top:62px;width:362px;height:352px;transform-origin:50% 100%'
         : 'left:650px;top:72px;width:570px;height:664px;transform-origin:0% 50%';
       h.push('<section class="holo" data-el="holo" tabindex="-1" aria-label="Hologram" style="' + panel + '"><div class="holo-inner">' +
         '<div style="flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 10px 10px 16px;border-bottom:1px solid rgba(46,230,255,.35)">' +
@@ -297,7 +300,7 @@
     if (!UC && !mobile) {
       h.push('<div class="abs t-fade" data-el="hud" style="left:0;top:70px;width:1280px;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center">');
       h.push('<div style="' + chipBox + ';font-size:13px">' + dot + 'Open to data center schedule, project controls &amp; pre-construction roles</div>');
-      h.push('<h1 class="px" style="margin:0;font-size:34px;line-height:1.3;color:#FF2E88;text-shadow:0 0 6px rgba(255,46,136,.9),0 0 24px rgba(255,46,136,.6)">BE ME FOR A MINUTE</h1>');
+      h.push('<h1 class="px" style="margin:0;font-size:34px;line-height:1.3;color:#FF7AB8;text-shadow:0 0 6px rgba(255,46,136,.9),0 0 24px rgba(255,46,136,.6)">BE ME FOR A MINUTE</h1>');
       h.push('<p style="margin:0;max-width:600px;font-size:17px;line-height:1.45;color:#D9D2EA">That’s me, Clinton Strickland, on my phone in the arcade. Schedule &amp; project controls lead, founder, world-builder. Step inside and see what I see.</p>');
       h.push('<div style="display:flex;align-items:center;gap:14px">' + startBtn(13) + sideBtn(CALL, 'BOOK A CALL', '#2EE6FF', ICON.cal, CALL_EXT, 11, 52) + sideBtn(VCARD, 'SAVE CONTACT', '#FF2E88', ICON.save, false, 11, 52) + '</div>');
       h.push('</div>');
@@ -305,7 +308,7 @@
     if (!UC && mobile) {
       h.push('<div class="abs t-fade" data-el="hud" style="left:24px;top:74px;width:342px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center">');
       h.push('<div style="' + chipBox + ';font-size:12px;min-height:30px;padding:0 12px">' + dot + 'Open to data center roles</div>');
-      h.push('<h1 class="px" style="margin:0;font-size:24px;line-height:1.45;color:#FF2E88;text-shadow:0 0 6px rgba(255,46,136,.9),0 0 20px rgba(255,46,136,.6)">BE ME FOR<br>A MINUTE</h1>');
+      h.push('<h1 class="px" style="margin:0;font-size:24px;line-height:1.45;color:#FF7AB8;text-shadow:0 0 6px rgba(255,46,136,.9),0 0 20px rgba(255,46,136,.6)">BE ME FOR<br>A MINUTE</h1>');
       h.push('<p style="margin:0;font-size:15px;line-height:1.4;color:#D9D2EA">That’s me, Clinton, on my phone in the arcade. Tap me or swipe up to see what I see.</p>');
       h.push(startBtn(12));
       h.push('<div style="display:flex;gap:10px;width:100%">' + sideBtn(CALL, 'BOOK CALL', '#2EE6FF', ICON.cal, CALL_EXT, 9, 44).replace('display:flex', 'flex:1 1 0;display:flex') + sideBtn(VCARD, 'SAVE ME', '#FF2E88', ICON.save, false, 9, 44).replace('display:flex', 'flex:1 1 0;display:flex') + '</div>');
@@ -359,7 +362,7 @@
       });
       h.push('</div></div>');
     } else if (!UC) {
-      h.push('<div class="abs t-fade hscroll" data-el="scores" style="left:0;top:722px;width:390px;display:flex;gap:10px;padding:0 24px">');
+      h.push('<div class="abs t-fade hscroll" data-el="scores" tabindex="0" role="region" aria-label="High scores, scroll sideways" style="left:0;top:722px;width:390px;display:flex;gap:10px;padding:0 24px">');
       h.push('<h2 class="sr-only">High scores</h2>');
       PROOF.forEach(function (p) {
         h.push('<div style="flex-shrink:0;width:156px;display:flex;flex-direction:column;gap:6px;padding:12px;border-radius:10px;border:2px solid #2A1F4A;background:rgba(11,6,20,.88)"><span class="px" style="font-size:10px;color:' + p.col + '">' + p.rank + '</span><span style="font-size:19px;font-weight:800">' + esc(p.v) + '</span><span class="mono" style="font-size:11px;line-height:1.35;color:#A79FBF">' + esc(p.l) + '</span></div>');
@@ -367,10 +370,13 @@
       h.push('<div style="flex-shrink:0;width:1px"></div></div>');
     }
 
-    // chrome
-    h.push('<a href="./" class="abs px" style="left:' + (mobile ? 20 : 80) + 'px;top:24px;font-size:' + (mobile ? 10 : 11) + 'px;color:#F2EEF8;text-decoration:none;text-shadow:0 0 8px rgba(242,238,248,.4)">CLINTON STRICKLAND</a>');
-    if (!mobile) h.push('<div class="abs px" data-el="where" aria-hidden="true" style="right:250px;top:26px;font-size:10px;color:#A79FBF"></div>');
-    h.push('<a href="' + RESUME + '" class="abs px t-fade" data-el="skip" style="right:' + (mobile ? 14 : 80) + 'px;top:' + (mobile ? 14 : 16) + 'px;display:flex;align-items:center;min-height:32px;padding:0 10px;border-radius:6px;border:2px solid rgba(242,238,248,.45);background:rgba(11,6,20,.6);color:#F2EEF8;font-size:9px;text-decoration:none">SKIP INTRO ›</a>');
+    // chrome: placed FIRST in the DOM so "Skip intro" is the first stop for keyboard and screen-reader users
+    var chrome = [];
+    chrome.push('<a href="' + RESUME + '" class="abs px t-fade" data-el="skip" aria-label="Skip intro: read the full web résumé" style="z-index:6;right:' + (mobile ? 14 : 80) + 'px;top:' + (mobile ? 14 : 16) + 'px;display:flex;align-items:center;min-height:32px;padding:0 10px;border-radius:6px;border:2px solid rgba(242,238,248,.6);background:rgba(11,6,20,.75);color:#F2EEF8;font-size:9px;text-decoration:none">SKIP INTRO \u203a</a>');
+    chrome.push('<button type="button" class="abs px" data-act="motion" data-el="motion" aria-pressed="false" aria-label="Pause animations" style="z-index:6;right:' + (mobile ? 146 : 250) + 'px;top:' + (mobile ? 14 : 16) + 'px;font-family:var(--pixel);display:flex;align-items:center;justify-content:center;gap:8px;min-width:32px;min-height:32px;padding:0 ' + (mobile ? 0 : 10) + 'px;border-radius:6px;border:2px solid rgba(242,238,248,.6);background:rgba(11,6,20,.75);color:#F2EEF8;font-size:9px;cursor:pointer"><span data-el="motionIcon" aria-hidden="true"></span>' + (mobile ? '' : '<span data-el="motionText" aria-hidden="true"></span>') + '</button>');
+    chrome.push('<a href="./" class="abs px" style="z-index:6;left:' + (mobile ? 20 : 80) + 'px;top:24px;font-size:' + (mobile ? 10 : 11) + 'px;color:#F2EEF8;text-decoration:none;text-shadow:0 0 8px rgba(242,238,248,.4)">CLINTON STRICKLAND</a>');
+    if (!mobile) chrome.push('<div class="abs px" data-el="where" aria-hidden="true" style="z-index:6;right:430px;top:26px;font-size:10px;color:#A79FBF"></div>');
+    h.unshift(chrome.join(''));
 
     stage.innerHTML = h.join('');
     els = {};
@@ -526,7 +532,7 @@
     screenKey = key;
     var body;
     if (scan) body = lockHTML(scan);
-    else if (st.app) body = remoteHTML() + dockHTML();
+    else if (st.app) body = remoteHTML() + (device === 'mobile' ? '' : dockHTML()); // on phones the tilted phone pushes the dock offscreen
     else body = homeHTML() + dockHTML();
     els.screenBody.innerHTML = body;
     var sc = els.screenBody.querySelector('.scroll');
@@ -545,10 +551,14 @@
     var a = APPS.filter(function (x) { return x.id === key; })[0];
     els.holoBody.innerHTML = key === 'work' ? workHTML(true) : key === 'now' ? nowHTML() : key === 'reviews' ? reviewsHTML() : genericHTML(a, true);
     els.holoLabel.textContent = 'HOLO · ' + a.n + ' ' + a.label;
+    var nice = a.label.charAt(0) + a.label.slice(1).toLowerCase();
+    els.holo.setAttribute('aria-label', 'Hologram: ' + nice);
+    var hs = els.holoBody.querySelector('.scroll');
+    if (hs) { hs.setAttribute('tabindex', '0'); hs.setAttribute('role', 'region'); hs.setAttribute('aria-label', nice + ' details'); }
     if (switching) glitch();
   }
   function glitch() {
-    if (REDUCE || !els.holo) return;
+    if (REDUCE || STILL || !els.holo) return;
     els.holo.classList.remove('glitch');
     void els.holo.offsetWidth; // restart the animation
     els.holo.classList.add('glitch');
@@ -608,17 +618,24 @@
       n.style.color = on ? '#F2EEF8' : 'rgba(242,238,248,.55)';
     });
     if (els.caption) els.caption.textContent = LINES[li];
+    stage.classList.toggle('still', STILL);
+    if (els.motion) {
+      els.motion.setAttribute('aria-pressed', STILL ? 'true' : 'false');
+      els.motion.setAttribute('aria-label', STILL ? 'Play animations' : 'Pause animations');
+      els.motionIcon.innerHTML = STILL ? ICON.play : '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="5" y="4" width="5" height="16"/><rect x="14" y="4" width="5" height="16"/></svg>';
+      if (els.motionText) els.motionText.textContent = STILL ? 'MOTION OFF' : 'MOTION ON';
+    }
 
     // projection: phone tilts away, beam + hologram panel appear
     var proj = st.stage === 2 && !!st.app;
-    if (els.hold) els.hold.style.transform = proj ? (mobile ? 'translateY(436px) perspective(900px) rotateX(12deg)' : 'translateX(-250px) perspective(1200px) rotateY(18deg)') : 'none';
+    if (els.hold) els.hold.style.transform = proj ? (mobile ? 'translateY(392px) perspective(900px) rotateX(12deg)' : 'translateX(-250px) perspective(1200px) rotateY(18deg)') : 'none';
     if (els.beam) els.beam.classList.toggle('on', proj);
     if (els.holo) { els.holo.classList.toggle('on', proj); setInert(els.holo, !proj); }
     if (els.mono) els.mono.style.opacity = proj ? 0 : 1;
     if (els.caption) els.caption.style.opacity = proj ? 0 : 1;
 
     if (els.query) {
-      var typed = (st.typed || REDUCE) && (REDUCE || st.tick % 4 !== 3);
+      var typed = STILL || REDUCE || (st.typed && st.tick % 4 !== 3);
       els.query.style.width = typed ? '33ch' : '0ch';
       els.results.style.opacity = typed ? 1 : 0;
     }
@@ -661,6 +678,11 @@
     var act = t.getAttribute('data-act');
     if (act === 'enter') go('in');
     else if (act === 'exit') go('out');
+    else if (act === 'motion') {
+      STILL = !STILL;
+      try { localStorage.setItem('cs-motion', STILL ? 'off' : 'on'); } catch (err) { /* storage unavailable */ }
+      update();
+    }
     else if (act === 'home') { st.app = null; update(); focusScreen(); }
     else if (act === 'skiplock') { clearTimers(); st.scan = null; update(); focusScreen(); }
     else if (act === 'open') {
@@ -714,7 +736,7 @@
   window.addEventListener('orientationchange', fit);
   fit();
 
-  setInterval(function () { st.tick++; update(); }, 3800);
+  setInterval(function () { if (!STILL) { st.tick++; update(); } }, 3800);
   scheduleGlitch();
   setTimeout(function () { st.typed = true; update(); }, 500);
 })();

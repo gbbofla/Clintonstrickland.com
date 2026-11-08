@@ -33,10 +33,10 @@
 .tape.l{left:-12px;transform:rotate(-28deg)} .tape.r{right:-12px;transform:rotate(28deg)}
 .art{position:absolute;inset:0;pointer-events:none}
 .p-band{position:absolute;left:7%;right:7%;top:5.5%;display:flex;justify-content:space-between;font-size:5.6cqw;letter-spacing:.08em;line-height:1}
-.p-live{position:absolute;left:7%;top:44%;font-size:7cqw;letter-spacing:.14em;line-height:1;color:var(--p-acc)}
+.p-live{position:absolute;left:7%;top:44%;font-size:7cqw;letter-spacing:.14em;line-height:1}
 .p-city{position:absolute;left:6%;right:6%;top:51%;font-size:22cqw;line-height:.9;text-transform:uppercase;letter-spacing:-.005em;white-space:nowrap}
 .p-foot{position:absolute;left:7%;right:7%;bottom:5.5%;display:flex;flex-direction:column;gap:3.5cqw}
-.p-state{font-size:7.5cqw;letter-spacing:.2em;line-height:1;color:var(--p-acc)}
+.p-state{font-size:7.5cqw;letter-spacing:.2em;line-height:1}
 .p-memo{font-family:var(--mono);font-size:4.8cqw;line-height:1.3;font-weight:500}
 
 /* art variants (all original, CSS only) */
@@ -69,7 +69,7 @@ dialog.zoom::backdrop{background:rgba(5,3,10,.82)}
 .hall .slot{width:min(300px,62vh*.7);scroll-snap-align:center}
 .hall-intro{width:min(520px,80vw);flex-shrink:0;display:flex;flex-direction:column;gap:16px;scroll-snap-align:start}
 .tilemap{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:4px;width:100%}
-.tile{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-family:var(--pixel);font-size:clamp(6px,.9vw,9px);border-radius:3px;background:rgba(11,6,20,.55);color:rgba(241,227,216,.45);border:1px solid rgba(241,227,216,.12)}
+.tile{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-family:var(--pixel);font-size:clamp(6px,.9vw,9px);border-radius:3px;background:rgba(11,6,20,.55);color:rgba(241,227,216,.78);border:1px solid rgba(241,227,216,.2)}
 .tile.on{background:#FFD23F;color:#0B0614;border-color:#FFD23F;box-shadow:0 0 12px rgba(255,210,63,.7)}
 .hall-hint{font-family:var(--pixel);font-size:10px;color:#F1E3D8}
 @media (prefers-reduced-motion:reduce){.poster{transition:none}}

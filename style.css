@@ -110,3 +110,8 @@ a:hover{color:#8FF3FF}
   .page h1{font-size:24px}
   .page h2{margin-top:22px}
 }
+
+/* paused motion (WCAG 2.2.2): everything that moves on its own stops */
+.stage.still .holo.on .holo-inner,.stage.still .beam.on,.stage.still .holo-scan,.stage.still .holo-sweep{animation:none!important}
+.stage.still .holo-sweep{display:none}
+.stage.still .cab-screen,.stage.still .line{transition:none!important}

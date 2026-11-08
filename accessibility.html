@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Accessibility · Clinton Strickland</title>
+<meta name="description" content="Accessibility statement for clintonstrickland.com: WCAG 2.2 AA target, features, known limitations and how to report a problem.">
+<link rel="canonical" href="https://clintonstrickland.com/accessibility.html">
+<meta name="theme-color" content="#0B0614">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css?v=7">
+</head>
+<body>
+<div class="page">
+<div class="wrap">
+  <nav class="topbar" aria-label="Site">
+    <a class="brand" href="./">CLINTON STRICKLAND</a>
+    <a class="btn" href="resume.html">Web résumé</a>
+  </nav>
+  <main>
+    <h1>ACCESSIBILITY</h1>
+    <p class="role">This site aims to meet the Web Content Accessibility Guidelines (WCAG) 2.2, Level AA.</p>
+    <p class="meta">Last reviewed November 8, 2026</p>
+
+    <h2>WHAT'S IN PLACE</h2>
+    <ul>
+      <li><strong>A full text version.</strong> The <a href="resume.html">web résumé</a> has all of the site's content (work, case studies, research, current projects, contact and booking) as a plain page that reflows, zooms to 400% and prints. "Skip intro" is the first link on the arcade page and goes straight there.</li>
+      <li><strong>Keyboard access.</strong> Everything in the arcade works with a keyboard: Tab to move, Enter or Space to choose, Escape to back out of a section or the phone view. Focus is always visible.</li>
+      <li><strong>Pause animations.</strong> The "Motion" button stops everything that moves on its own: rotating notifications, cabinet screens, the typing effect and the hologram flicker. The site starts paused if your device is set to reduce motion, and it remembers your choice.</li>
+      <li><strong>No flashing.</strong> Hologram glitches happen no more than about once every two seconds, well under the three-flashes-per-second limit.</li>
+      <li><strong>Screen readers.</strong> Pages use headings, landmarks and labeled controls. Decorative art is hidden from assistive technology, and hidden parts of the arcade can't be reached until they're on screen.</li>
+      <li><strong>Color and contrast.</strong> Text was checked against its actual rendered background, including over gradients and effects, to meet 4.5:1 (3:1 for large text). Meaning never depends on color alone; chart bars and statuses are labeled in text.</li>
+      <li><strong>Testing.</strong> Automated checks with axe-core across every page and interactive state, rendered-pixel contrast measurement, and manual keyboard testing at desktop and phone sizes.</li>
+    </ul>
+
+    <h2>KNOWN LIMITATIONS</h2>
+    <ul>
+      <li>The arcade page is a fixed-layout illustrated experience that scales to fit your screen, so it doesn't reflow like a normal page when you zoom. The <a href="resume.html">web résumé</a> is the conforming alternate version with the same content and fully supports zoom, text spacing and reflow.</li>
+      <li>Inside the hologram, colors are tinted cyan as a visual effect. All information there is also in text and in the web résumé.</li>
+      <li>Booking goes through Calendly and some links open LinkedIn and GitHub. Those services have their own accessibility.</li>
+    </ul>
+
+    <h2>REPORT A PROBLEM</h2>
+    <p>If anything on this site is hard to use, email <a href="mailto:clinton.strickland3@gmail.com?subject=Accessibility%20on%20clintonstrickland.com">clinton.strickland3@gmail.com</a> with the page and what happened. I'll fix it or get you the information another way.</p>
+  </main>
+  <footer class="foot"><p><a href="./">&#9654; Back to the arcade</a></p></footer>
+</div>
+</div>
+</body>
+</html>

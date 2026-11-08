@@ -13,7 +13,7 @@
   var PALETTES = [
     { bg: '#FFD23F', ink: '#0B0614', acc: '#FF2E88' },
     { bg: '#2EE6FF', ink: '#0B0614', acc: '#5B21B6' },
-    { bg: '#FF2E88', ink: '#FFF4D6', acc: '#FFD23F' },
+    { bg: '#FF2E88', ink: '#0B0614', acc: '#FFD23F' },
     { bg: '#0B0614', ink: '#FFD23F', acc: '#39FF88' },
     { bg: '#FF8A3D', ink: '#1B1430', acc: '#FFF4D6' },
     { bg: '#A78BFA', ink: '#0B0614', acc: '#FFF4D6' }
@@ -37,7 +37,7 @@
     var pal = PALETTES[i % PALETTES.length], v = VARIANTS[i % VARIANTS.length];
     var memo = p.memory ? esc(p.memory) : '[One-line memory]';
     var tilt = ((i * 37) % 5 - 2) * 0.8;
-    return '<' + tag + (tag === 'button' ? ' type="button" data-i="' + i + '"' : '') + ' class="poster ' + v + '" style="--p-bg:' + pal.bg + ';--p-ink:' + pal.ink + ';--p-acc:' + pal.acc + ';transform:rotate(' + tilt + 'deg)" aria-label="' + esc(p.city + ', ' + p.state + (p.memory ? ': ' + p.memory : '')) + '">' +
+    return '<' + tag + (tag === 'button' ? ' type="button" data-i="' + i + '"' : ' role="img"') + ' class="poster ' + v + '" style="--p-bg:' + pal.bg + ';--p-ink:' + pal.ink + ';--p-acc:' + pal.acc + ';transform:rotate(' + tilt + 'deg)" aria-label="' + esc(p.city + ', ' + p.state + (p.memory ? ': ' + p.memory : '')) + '">' +
       '<span class="art" aria-hidden="true"></span>' +
       '<span class="p-band" aria-hidden="true"><span>CLINTON STRICKLAND</span><span>ON TOUR</span></span>' +
       '<span class="p-live" aria-hidden="true">LIVE IN</span>' +
@@ -89,7 +89,7 @@
     var intro = '<div class="hall-intro"><p class="tour-sub" style="margin:0;text-align:left">' + Object.keys(visited).length + ' of 50 states lit. Every poster is a city I’ve played.</p>' + map + '<p class="hall-hint">SCROLL →</p></div>';
     var slots = PLACES.map(slotHTML);
     for (var k = PLACES.length; k < 12; k++) slots.push(emptyHTML('NEXT<br>STOP?'));
-    root.innerHTML = '<div class="hall" tabindex="0" aria-label="Poster hallway, scroll sideways"><ul class="hall-track" role="list" style="list-style:none;margin:0">' + '<li>' + intro + '</li>' + slots.join('') + '</ul></div>';
+    root.innerHTML = '<div class="hall" tabindex="0" role="region" aria-label="Poster hallway, scroll sideways"><ul class="hall-track" role="list" style="list-style:none;margin:0">' + '<li>' + intro + '</li>' + slots.join('') + '</ul></div>';
     var hall = root.querySelector('.hall');
     hall.addEventListener('wheel', function (e) {
       if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { hall.scrollLeft += e.deltaY; e.preventDefault(); }
