@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
+Disallow: /preview-2027/
 Sitemap: https://clintonstrickland.com/sitemap.xml
