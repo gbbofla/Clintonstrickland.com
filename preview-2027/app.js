@@ -489,7 +489,7 @@
   }
   function prizesHTML() {
     var items = [['press-start-hoodie-back', 'Press Start Hoodie', '$65'], ['level-up-tee', 'Level Up Tee', '$34'], ['player-1-ready-tee', 'Player 1 Ready Tee', '$34'], ['pin-player-1-head', 'Player 1 Enamel Pin', '$15']];
-    var h = holoWrap('08', 'PRIZE COUNTER', '#39FF88', 'DROP 01: PLAYER 1', 'Arcade gear for people who press start. Hoodies, tees, stickers and enamel pins, printed to order. Store opens January 1, 2027.') +
+    var h = holoWrap('08', 'PRIZE COUNTER', '#39FF88', 'ANTIALGO DROP 01', 'Player 1 gear for people who press start. Hoodies, tees, stickers and enamel pins, printed to order. Store opens January 1, 2027.') +
       '<ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px">';
     items.forEach(function (it) {
       h += '<li style="display:flex;flex-direction:column;gap:6px;padding:8px;border-radius:10px;background:#16102A;border:2px solid #2A1F4A"><img src="merch/' + it[0] + '.png" alt="" width="640" height="640" style="width:100%;height:auto;border-radius:6px;background:#211538">' +
