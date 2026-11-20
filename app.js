@@ -15,7 +15,7 @@
   var EMAIL = 'clinton.strickland3@gmail.com';
   var LINKEDIN = 'https://www.linkedin.com/in/csiii';
   var GITHUB = 'https://github.com/gbbofla';
-  var RESUME = 'resume.html';
+  var RESUME = 'company.html'; // plain, fully accessible version of the whole site
   var CALL = BOOKING_URL || ('mailto:' + EMAIL + '?subject=' + encodeURIComponent('15-minute call') + '&body=' + encodeURIComponent('Hi Clinton,\n\nI found your site and would like to set up a 15-minute call. A few times that work for me:\n\n- \n- \n\nThanks,\n'));
   var CALL_EXT = !!BOOKING_URL;
   if (window.__previewReviews) REVIEWS = window.__previewReviews; // used only by local design previews
@@ -48,71 +48,70 @@
     { world: 'scale(1.3)', blur: 9, bright: 0.75, fig: 'scale(7)', figO: 0, vig: 'inset 0 0 220px 150px rgba(5,3,10,.95)', vigM: 'inset 0 0 140px 70px rgba(5,3,10,.95)', bar: 64, pov: 1, povT: 'none', povTm: 'none', hud: 0, where: 'PLAYER 1' }
   ];
 
-  // What I'm working on right now. status: short arcade tag; col: tag color; app: optional stage to jump to.
-  var NOW = [
-    { t: 'Cliffhanger', status: 'PUBLIC BETA', col: '#FF2E88', d: 'My microdrama company and its app: short, binge-able drama series made for your phone. The public beta is landing right here soon.', href: CLIFFHANGER_BETA, cta: 'PLAY THE BETA' },
-    { t: 'Ironline Planning Co.', status: 'ACTIVE', col: '#39FF88', d: 'Owner’s-side planning, scheduling and project controls for data center, advanced manufacturing and industrial work.' },
-    { t: 'Campus A research', status: 'IN PROGRESS', col: '#2EE6FF', d: 'An integrated master schedule and Monte Carlo risk model for a hypothetical 400 MW AI campus.', app: 'lab' },
-    { t: 'Learning guitar', status: 'LEVELING UP', col: '#FFD23F', d: 'Teaching myself guitar, one chord at a time. Yes, that’s what I was searching for in the arcade.' },
-    { t: 'Blacktop Dust', status: 'IN PROGRESS', col: '#A78BFA', d: 'A novella set in Baltimore’s underground bike scene.' },
-    { t: 'Sun & Steel', status: 'IN PROGRESS', col: '#A78BFA', d: 'A solarpunk Afro-futurist comic.' },
-    { t: 'Shreddy Ruxpin', status: 'IN PROGRESS', col: '#A78BFA', d: 'A doom metal concept album series.' }
+  // ---- Company content. The company name lives in ONE place: COMPANY. ----
+  var COMPANY = '[COMPANY NAME]';
+  var CHECK = 'health-check.html';
+
+  // The offer ladder, shown as arcade levels. Prices confirmed November 20, 2026.
+  var LEVELS = [
+    { lv: 'LV1', tag: 'START HERE', name: 'Growth & Content Audit', short: 'Audit', term: '3 weeks', len: '3 weeks', price: 'From $7,500', col: '#FFD23F',
+      d: 'We review your channels, content, funnel and measurement, then hand you a ranked list of what to fix and a 90-day test plan. Fixed fee, credited toward any retainer signed within 60 days.' },
+    { lv: 'LV2', tag: 'BUILD THE ENGINE', name: 'Content Engine Sprint', short: 'Sprint', term: '6 to 8 weeks', len: '6 to 8 weeks', price: 'From $15,000', col: '#2EE6FF',
+      d: 'We find the format that already works in your space, lock its structure, and build your weekly cadence: one long piece, short posts and a short video, every week, judged by pipeline, not likes.' },
+    { lv: 'LV3', tag: 'MAKE THE SHOW', name: 'Short-form & Microdrama Production', short: 'Production', term: 'per series', len: 'Per series of 10 to 20 episodes', price: 'From $25,000', col: '#FF2E88',
+      d: 'Vertical short-form and episodic microdrama series made for phones, written to end every episode on a hook. Produced by the studio behind Cliffhanger.' },
+    { lv: 'LV4', tag: 'SCALE WHAT WORKS', name: 'Hypergrowth Retainer', short: 'Retainer', len: 'Monthly · 3-month minimum', price: 'From $10,000/mo', col: '#39FF88',
+      d: 'Ongoing strategy, content and paid growth with a testing roadmap: find what works, prove it, then pour fuel on it. Monthly reviews against the numbers you care about.' },
+    { lv: 'LV5', tag: 'LEAD THE TEAM', name: 'Fractional Head of Growth', short: 'Fractional', len: 'Monthly · about 10 hours a week', price: 'From $8,000/mo', col: '#A78BFA',
+      d: 'About 10 hours a week: owns your growth plan, sets the KPIs, manages vendors and creators, and coaches your in-house team.' }
   ];
 
   var APPS = [
-    { id: 'now', n: '00', label: 'NOW PLAYING', col: '#7CFFCB' },
-    { id: 'about', n: '01', label: 'ABOUT', col: ACCENT, title: 'I get schedules home.',
-      body: 'I’m a schedule and project controls lead with eight years across data center, advanced manufacturing and industrial programs. I find what’s really driving the finish date, so owners see risk early and act before it reaches the critical path. Off the clock I build worlds: novels, comics, concept albums.',
-      rows: [{ t: 'Based in Port St. Lucie, FL' }, { t: 'Founder, Ironline Planning Co. (2019)' }, { t: 'PMP · Certified ScrumMaster · OSHA 30' }, { t: 'MBA, Pepperdine University' }, { t: 'My rule: find the real constraint first.' }, { t: 'Express risk as days and dollars, not color codes.' }] },
-    { id: 'work', n: '02', label: 'WORK', col: '#2EE6FF' },
-    { id: 'ventures', n: '03', label: 'VENTURES', col: '#39FF88', title: 'Things I’m building',
-      body: 'I build independent businesses alongside client work.',
-      rows: [{ t: 'Ironline Planning Co. — owner’s-side planning, scheduling and project controls for owners, developers and GCs, est. 2019' }, { t: 'Data center schedule controls research — see the LAB stage' }] },
-    { id: 'stories', n: '04', label: 'STORIES', col: '#FF2E88', title: 'Worlds I’m writing',
-      body: 'Fiction, comics and sound: the other half of how I think.',
-      rows: [{ t: 'Blacktop Dust — novella, Baltimore’s underground bike scene' }, { t: 'Sun & Steel — solarpunk Afro-futurist comic' }, { t: 'Shreddy Ruxpin — doom metal concept album series' }] },
-    { id: 'contact', n: '05', label: 'CONTACT', col: '#A78BFA', title: 'Let’s build something.',
-      body: 'Open to data center schedule, project controls and pre-construction roles, and to good collaborators.',
-      rows: [{ t: 'Book a 30-minute call', href: CALL }, { t: 'Add me to your contacts', href: VCARD }, { t: EMAIL, href: 'mailto:' + EMAIL }, { t: 'linkedin.com/in/csiii', href: LINKEDIN }, { t: 'github.com/gbbofla', href: GITHUB }, { t: 'Web résumé', href: RESUME, same: true }, { t: 'Port St. Lucie, FL' }] },
-    { id: 'lab', n: '06', label: 'LAB', col: '#FF8A3D', title: 'Data center lab',
-      body: 'Independent planning work applying owner’s-side schedule controls to hyperscale data center programs. Campus A figures are planning estimates for a hypothetical program. The Excel model and a P6-importable schedule are available on request.',
-      rows: [{ t: 'Campus A: integrated master schedule for a 400 MW AI campus (hypothetical)' }, { t: 'Utility, entitlement, design, long-lead electrical gear, shell, fit-out and commissioning linked; a 110-week transformer lead sets the date, and reserving it early saves 12 weeks' }, { t: 'Schedule risk: 3,000-iteration Monte Carlo, P50 Nov 2029, P80 Jan 2030' }, { t: 'Capacity: 963 IT MW and 1,204 MW of facility load, delivery paths priced at $0.5M per MW-month of delay' }, { t: 'White paper: Recovering 126 Days' }, { t: 'White paper: Pre-Construction for Hyperscale AI Data Centers' }, { t: 'White paper: The Pandemic That Rewired the Construction Schedule' }] }
+    { id: 'pitch', n: '01', label: 'THE PITCH', col: ACCENT, title: 'Growth you can see coming.',
+      body: COMPANY + ' is a hypergrowth and content studio founded by Clinton Strickland. Most brands don’t have a content problem; they have a system problem. We start with a fixed-fee audit that finds where your growth is leaking, then build the engine that fixes it: a repeatable format, a weekly cadence, short-form and microdrama series, and measurement that judges every post by pipeline, not likes.',
+      rows: [{ t: 'Prove what works before you scale it.' }, { t: 'Copy the structure, change the story.' }, { t: 'Packaging is half the work: the hook decides whether anyone sees the rest.' }, { t: 'Judge content like media: by what it moves.' }, { t: 'Founder-led: you work with Clinton directly.' }] },
+    { id: 'levels', n: '02', label: 'LEVELS', col: '#2EE6FF' },
+    { id: 'fit', n: '03', label: 'WHO WE HELP', col: '#39FF88', title: 'Who we play for',
+      body: 'We do our best work where one person can say yes, the product already works, and the next step is getting seen by the right people, fast.',
+      rows: [{ t: 'Founder-led startups and consumer brands with a product people love and no content engine yet' }, { t: 'Creators and personalities turning an audience into a business' }, { t: 'Local and multi-location businesses that need to be seen in their market' }, { t: 'Agencies whose clients want short-form video and have no one to make it' }] },
+    { id: 'how', n: '04', label: 'HOW IT WORKS', col: '#FF2E88' },
+    { id: 'proof', n: '05', label: 'PROOF', col: '#FF8A3D', title: 'Proof, built in public',
+      body: 'We’re new, so we show our work instead of a logo wall. Every result we publish will be measured and signed off by the client.',
+      rows: [{ t: 'Cliffhanger — our own microdrama studio and app, in public beta. The same playbook we sell, run on ourselves.' }, { t: 'Founding clients — a few first audits at a founding rate, in exchange for a named case study.' }, { t: 'Case studies will appear here as founding clients finish their audits.' }] },
+    { id: 'check', n: '06', label: 'HEALTH CHECK', col: '#FFD23F' },
+    { id: 'contact', n: '07', label: 'CONTACT', col: '#A78BFA', title: 'Let’s grow something.',
+      body: 'Book a 30-minute call. We’ll ask about your goals, your numbers and what you’ve already tried, and tell you honestly whether we’re the right fit.',
+      rows: [{ t: 'Book a 30-minute call', href: CALL }, { t: 'Take the free Growth & Content Health Check', href: CHECK }, { t: EMAIL, href: 'mailto:' + EMAIL }, { t: 'Add Clinton to your contacts', href: VCARD }, { t: 'linkedin.com/in/csiii', href: LINKEDIN }, { t: 'Know someone who needs this? Send them our way. Referrals are how we grow too.' }, { t: 'Port St. Lucie, FL · working with clients everywhere' }] }
+  ];
+  if (REVIEWS.length) APPS.push({ id: 'reviews', n: '08', label: 'REVIEWS', col: '#FFD23F' });
+
+  var FIT_TRIGGERS = ['You just raised, launched or hired your first marketer', 'You’re posting every week and the numbers aren’t moving', 'You’re starting short-form video or vertical series', 'Your agency treats you like a small account'];
+  var NOT_FIT = ['You want likes, not customers', 'No one owns the outcome on your side', 'You need the cheapest posting service in town'];
+  var STEPS = [
+    { t: 'First call', len: '30 min', d: 'Your goals, your numbers, what you’ve tried and what changes in the next two quarters.' },
+    { t: 'Data look', len: '1 week', d: 'Read-only access to your analytics and channels. We come back with three specific observations.' },
+    { t: 'Proposal', len: 'Same week', d: 'One page: the problem in your words, the scope, the price, and what a good outcome looks like.' },
+    { t: 'Audit', len: '3 weeks', d: 'A 20-minute check-in every week, so the readout has no surprises.' },
+    { t: 'Readout', len: '1 meeting', d: 'Ranked fixes, a 90-day test plan, and the next step on the last page.' },
+    { t: 'Level up', len: 'Ongoing', d: 'Content Engine Sprint, production, a retainer or a fractional Head of Growth.' }
   ];
 
-  if (REVIEWS.length) APPS.push({ id: 'reviews', n: '07', label: 'REVIEWS', col: '#FFD23F' });
-
   var NOTIFS = [
-    { from: 'NOW PLAYING \u00b7 CLIFFHANGER', text: 'My microdrama app. Public beta landing here soon.', app: 'now', n: '00', col: '#7CFFCB' },
-    { from: 'NEW HIGH SCORE · CAMPUS C', text: 'Handed over 4 weeks ahead of the approved baseline.', app: 'work', n: '02', col: '#2EE6FF' },
-    { from: 'COMEBACK · CAMPUS B', text: '206 days late at takeover. Delivered 126 days ahead of that forecast.', app: 'work', n: '02', col: '#2EE6FF' },
-    { from: 'COST CONTROL · CAMPUS B', text: 'Overrun held to $630K against a ~$1.2M forecast.', app: 'work', n: '02', col: '#2EE6FF' },
-    { from: 'NEW RESEARCH', text: 'A 400 MW AI campus, scheduled from utility to commissioning.', app: 'lab', n: '06', col: '#FF8A3D' }
+    { from: 'NOW BOOKING · JANUARY 2027', text: 'Founding-client audits are open. Start at Level 1.', app: 'levels', n: '02', col: '#2EE6FF' },
+    { from: 'FREE · 10 QUESTIONS', text: 'How healthy is your growth and content engine?', app: 'check', n: '06', col: '#FFD23F' },
+    { from: 'OUR STUDIO · CLIFFHANGER', text: 'Our microdrama studio and app, in public beta.', app: 'proof', n: '05', col: '#FF8A3D' }
   ];
   REVIEWS.slice(0, 2).forEach(function (r, i) {
     var short = r.q.length > 90 ? r.q.slice(0, 87).replace(/\s+\S*$/, '') + '…' : r.q;
-    NOTIFS.splice(1 + i * 2, 0, { from: '2P SAYS · ' + r.name.toUpperCase(), text: '“' + short + '”', app: 'reviews', n: '07', col: '#FFD23F' });
+    NOTIFS.splice(1 + i * 2, 0, { from: '2P SAYS · ' + r.name.toUpperCase(), text: '“' + short + '”', app: 'reviews', n: '08', col: '#FFD23F' });
   });
 
   var LINES = [
-    'I took over a $650M data center campus forecasting 206 days late.',
-    'We delivered it 126 days ahead of that forecast.',
-    'I held the cost overrun to $630K. The forecast said $1.2M.',
-    'Then I brought a 28-month build home four weeks early.'
+    'Most brands don’t have a content problem. They have a system problem.',
+    'A post that gets likes and no customers is a cost, not content.',
+    'Find what works. Prove it. Then pour fuel on it.',
+    'Every episode should end on a hook. So should your funnel.'
   ];
-
-  var PROOF = [
-    { rank: '1ST', col: '#FFD23F', v: '$150M+', l: 'construction directed in a $500M+ portfolio' },
-    { rank: '2ND', col: '#2EE6FF', v: '126 days', l: 'recovered on a $650M data center campus' },
-    { rank: '3RD', col: '#FF2E88', v: '4 wks early', l: 'Campus C, 110,000 sf advanced manufacturing' },
-    { rank: '4TH', col: '#39FF88', v: '75%', l: 'of projects ahead of baseline, zero lost-time incidents' }
-  ];
-
-  var ROLES = [
-    { org: 'Ironline Planning Co.', role: 'Founder · Port St. Lucie, FL · 2019–now' },
-    { org: 'BMRed', role: 'Senior Project Manager · Boston, MA · 2019–2021' },
-    { org: 'Strickland Demo and Build', role: 'Construction Scheduler / Preconstruction Planning Leader · 2018–2019' }
-  ];
-  var METHODS = ['Primavera P6', 'Critical-path & delay analysis', 'Time-impact evaluation', 'Takt & Last Planner', 'Monte Carlo (P50/P80)', 'Earned value', 'Commissioning prerequisites', 'Cost-schedule alignment'];
 
   var RESULTS = [
     { t: 'Your first four chords: G, C, D and Em', s: 'Beginner lesson' },
@@ -134,6 +133,7 @@
     mail: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>',
     brief: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>',
     code: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 8l-4 4 4 4"/><path d="M16 8l4 4-4 4"/></svg>',
+    check16: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg>',
     cal: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/></svg>',
     save: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M19 8v6"/><path d="M16 11h6"/></svg>',
     search: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F2EEF8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>'
@@ -299,19 +299,19 @@
     };
     if (!UC && !mobile) {
       h.push('<div class="abs t-fade" data-el="hud" style="left:0;top:70px;width:1280px;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center">');
-      h.push('<div style="' + chipBox + ';font-size:13px">' + dot + 'Open to data center schedule, project controls &amp; pre-construction roles</div>');
-      h.push('<h1 class="px" style="margin:0;font-size:34px;line-height:1.3;color:#FF7AB8;text-shadow:0 0 6px rgba(255,46,136,.9),0 0 24px rgba(255,46,136,.6)">BE ME FOR A MINUTE</h1>');
-      h.push('<p style="margin:0;max-width:600px;font-size:17px;line-height:1.45;color:#D9D2EA">That’s me, Clinton Strickland, on my phone in the arcade. Schedule &amp; project controls lead, founder, world-builder. Step inside and see what I see.</p>');
-      h.push('<div style="display:flex;align-items:center;gap:14px">' + startBtn(13) + sideBtn(CALL, 'BOOK A CALL', '#2EE6FF', ICON.cal, CALL_EXT, 11, 52) + sideBtn(VCARD, 'SAVE CONTACT', '#FF2E88', ICON.save, false, 11, 52) + '</div>');
+      h.push('<div style="' + chipBox + ';font-size:13px">' + dot + 'Now booking founding clients · January 2027</div>');
+      h.push('<h1 class="px" style="margin:0;font-size:34px;line-height:1.3;color:#FF7AB8;text-shadow:0 0 6px rgba(255,46,136,.9),0 0 24px rgba(255,46,136,.6)">LEVEL UP YOUR GROWTH</h1>');
+      h.push('<p style="margin:0;max-width:600px;font-size:17px;line-height:1.45;color:#D9D2EA">' + esc(COMPANY) + ' is a hypergrowth and content studio founded by Clinton Strickland. Press start to step inside and see how we play.</p>');
+      h.push('<div style="display:flex;align-items:center;gap:14px">' + startBtn(13) + sideBtn(CALL, 'BOOK A CALL', '#2EE6FF', ICON.cal, CALL_EXT, 11, 52) + sideBtn(CHECK, 'FREE HEALTH CHECK', '#FF2E88', ICON.check16, false, 11, 52) + '</div>');
       h.push('</div>');
     }
     if (!UC && mobile) {
       h.push('<div class="abs t-fade" data-el="hud" style="left:24px;top:74px;width:342px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center">');
-      h.push('<div style="' + chipBox + ';font-size:12px;min-height:30px;padding:0 12px">' + dot + 'Open to data center roles</div>');
-      h.push('<h1 class="px" style="margin:0;font-size:24px;line-height:1.45;color:#FF7AB8;text-shadow:0 0 6px rgba(255,46,136,.9),0 0 20px rgba(255,46,136,.6)">BE ME FOR<br>A MINUTE</h1>');
+      h.push('<div style="' + chipBox + ';font-size:12px;min-height:30px;padding:0 12px">' + dot + 'Now booking · Jan 2027</div>');
+      h.push('<h1 class="px" style="margin:0;font-size:24px;line-height:1.45;color:#FF7AB8;text-shadow:0 0 6px rgba(255,46,136,.9),0 0 20px rgba(255,46,136,.6)">LEVEL UP<br>YOUR GROWTH</h1>');
       h.push('<p style="margin:0;font-size:15px;line-height:1.4;color:#D9D2EA">That’s me, Clinton, on my phone in the arcade. Tap me or swipe up to see what I see.</p>');
       h.push(startBtn(12));
-      h.push('<div style="display:flex;gap:10px;width:100%">' + sideBtn(CALL, 'BOOK CALL', '#2EE6FF', ICON.cal, CALL_EXT, 9, 44).replace('display:flex', 'flex:1 1 0;display:flex') + sideBtn(VCARD, 'SAVE ME', '#FF2E88', ICON.save, false, 9, 44).replace('display:flex', 'flex:1 1 0;display:flex') + '</div>');
+      h.push('<div style="display:flex;gap:10px;width:100%">' + sideBtn(CALL, 'BOOK CALL', '#2EE6FF', ICON.cal, CALL_EXT, 9, 44).replace('display:flex', 'flex:1 1 0;display:flex') + sideBtn(CHECK, 'HEALTH CHECK', '#FF2E88', ICON.check16, false, 9, 44).replace('display:flex', 'flex:1 1 0;display:flex') + '</div>');
       h.push('</div>');
     }
     if (UC) {
@@ -353,26 +353,27 @@
       h.push('<div class="abs" aria-hidden="true" style="left:0;bottom:0;width:100%;height:10px;background:repeating-linear-gradient(45deg,#FFD23F 0 14px,#0B0614 14px 28px)"></div>');
     }
 
-    // high scores
+    // level select board: the offer ladder, with prices
+    var lvPrice = function (l) { return l.price.indexOf('[') === 0 ? 'Price on call' : l.price; };
     if (!mobile) {
-      h.push('<div class="abs t-fade" data-el="scores" style="left:160px;top:680px;width:960px;display:flex;flex-direction:column;gap:10px;padding:12px 18px;border-radius:10px;border:2px solid #2A1F4A;background:rgba(11,6,20,.85)">');
-      h.push('<h2 class="px" style="margin:0;font-size:10px;color:#FFD23F">HIGH SCORES</h2><div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px">');
-      PROOF.forEach(function (p) {
-        h.push('<div style="display:flex;flex-direction:column;gap:4px"><span style="display:flex;align-items:baseline;gap:8px"><span class="px" style="font-size:10px;color:' + p.col + '">' + p.rank + '</span><span style="font-size:20px;font-weight:800">' + esc(p.v) + '</span></span><span class="mono" style="font-size:11px;line-height:1.35;color:#A79FBF">' + esc(p.l) + '</span></div>');
+      h.push('<div class="abs t-fade" data-el="scores" style="left:120px;top:676px;width:1040px;display:flex;flex-direction:column;gap:10px;padding:12px 18px;border-radius:10px;border:2px solid #2A1F4A;background:rgba(11,6,20,.88)">');
+      h.push('<h2 class="px" style="margin:0;font-size:10px;color:#FFD23F">SELECT YOUR LEVEL</h2><ol style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px">');
+      LEVELS.forEach(function (l) {
+        h.push('<li style="display:flex;flex-direction:column;gap:4px"><span class="px" style="font-size:10px;color:' + l.col + '">' + l.lv + '</span><span style="font-size:15px;font-weight:800;line-height:1.2">' + esc(l.name) + '</span><span class="mono" style="font-size:11px;line-height:1.35;color:#A79FBF">' + esc(lvPrice(l)) + (l.term ? ' \u00b7 ' + esc(l.term) : '') + '</span></li>');
       });
-      h.push('</div></div>');
+      h.push('</ol></div>');
     } else if (!UC) {
-      h.push('<div class="abs t-fade hscroll" data-el="scores" tabindex="0" role="region" aria-label="High scores, scroll sideways" style="left:0;top:722px;width:390px;display:flex;gap:10px;padding:0 24px">');
-      h.push('<h2 class="sr-only">High scores</h2>');
-      PROOF.forEach(function (p) {
-        h.push('<div style="flex-shrink:0;width:156px;display:flex;flex-direction:column;gap:6px;padding:12px;border-radius:10px;border:2px solid #2A1F4A;background:rgba(11,6,20,.88)"><span class="px" style="font-size:10px;color:' + p.col + '">' + p.rank + '</span><span style="font-size:19px;font-weight:800">' + esc(p.v) + '</span><span class="mono" style="font-size:11px;line-height:1.35;color:#A79FBF">' + esc(p.l) + '</span></div>');
+      h.push('<div class="abs t-fade hscroll" data-el="scores" tabindex="0" role="region" aria-label="Levels and prices, scroll sideways" style="left:0;top:722px;width:390px;display:flex;gap:10px;padding:0 24px">');
+      h.push('<h2 class="sr-only">Select your level</h2>');
+      LEVELS.forEach(function (l) {
+        h.push('<div style="flex-shrink:0;width:160px;display:flex;flex-direction:column;gap:6px;padding:12px;border-radius:10px;border:2px solid #2A1F4A;background:rgba(11,6,20,.9)"><span class="px" style="font-size:10px;color:' + l.col + '">' + l.lv + ' \u00b7 ' + esc(l.short.toUpperCase()) + '</span><span style="font-size:14px;font-weight:800;line-height:1.2">' + esc(l.name) + '</span><span class="mono" style="font-size:11px;line-height:1.35;color:#A79FBF">' + esc(lvPrice(l)) + '</span></div>');
       });
       h.push('<div style="flex-shrink:0;width:1px"></div></div>');
     }
 
     // chrome: placed FIRST in the DOM so "Skip intro" is the first stop for keyboard and screen-reader users
     var chrome = [];
-    chrome.push('<a href="' + RESUME + '" class="abs px t-fade" data-el="skip" aria-label="Skip intro: read the full web résumé" style="z-index:6;right:' + (mobile ? 14 : 80) + 'px;top:' + (mobile ? 14 : 16) + 'px;display:flex;align-items:center;min-height:32px;padding:0 10px;border-radius:6px;border:2px solid rgba(242,238,248,.6);background:rgba(11,6,20,.75);color:#F2EEF8;font-size:9px;text-decoration:none">SKIP INTRO \u203a</a>');
+    chrome.push('<a href="' + RESUME + '" class="abs px t-fade" data-el="skip" aria-label="Skip intro: read the plain version of the site" style="z-index:6;right:' + (mobile ? 14 : 80) + 'px;top:' + (mobile ? 14 : 16) + 'px;display:flex;align-items:center;min-height:32px;padding:0 10px;border-radius:6px;border:2px solid rgba(242,238,248,.6);background:rgba(11,6,20,.75);color:#F2EEF8;font-size:9px;text-decoration:none">SKIP INTRO \u203a</a>');
     chrome.push('<button type="button" class="abs px" data-act="motion" data-el="motion" aria-pressed="false" aria-label="Pause animations" style="z-index:6;right:' + (mobile ? 146 : 250) + 'px;top:' + (mobile ? 14 : 16) + 'px;font-family:var(--pixel);display:flex;align-items:center;justify-content:center;gap:8px;min-width:32px;min-height:32px;padding:0 ' + (mobile ? 0 : 10) + 'px;border-radius:6px;border:2px solid rgba(242,238,248,.6);background:rgba(11,6,20,.75);color:#F2EEF8;font-size:9px;cursor:pointer"><span data-el="motionIcon" aria-hidden="true"></span>' + (mobile ? '' : '<span data-el="motionText" aria-hidden="true"></span>') + '</button>');
     chrome.push('<a href="./" class="abs px" style="z-index:6;left:' + (mobile ? 20 : 80) + 'px;top:24px;font-size:' + (mobile ? 10 : 11) + 'px;color:#F2EEF8;text-decoration:none;text-shadow:0 0 8px rgba(242,238,248,.4)">CLINTON STRICKLAND</a>');
     if (!mobile) chrome.push('<div class="abs px" data-el="where" aria-hidden="true" style="z-index:6;right:430px;top:26px;font-size:10px;color:#A79FBF"></div>');
@@ -398,7 +399,7 @@
     };
     return '<nav aria-label="Quick links" style="flex-shrink:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;padding:10px 10px 0;border-top:2px solid #2A1F4A">' +
       item(CALL, 'Call', '#2EE6FF', ICON.cal, CALL_EXT) + item(VCARD, 'Save', '#FF2E88', ICON.save) +
-      item(RESUME, 'Résumé', '#FFD23F', ICON.file) + item('mailto:' + EMAIL, 'Email', '#A78BFA', ICON.mail) +
+      item(CHECK, 'Check', '#FFD23F', ICON.check16) + item('mailto:' + EMAIL, 'Email', '#A78BFA', ICON.mail) +
       item(LINKEDIN, 'LinkedIn', '#39FF88', ICON.brief, true) + '</nav>';
   }
   function lockHTML(scan) {
@@ -406,15 +407,15 @@
     var box = 'display:flex;align-items:center;justify-content:center;width:88px;height:88px;border-radius:10px;' + (ok ? 'background:' + ACCENT + ';color:#0B0614;border:3px solid ' + ACCENT + ';box-shadow:0 0 30px ' + GLOW : 'color:' + ACCENT + ';border:3px dashed ' + ACCENT);
     return '<button type="button" data-act="skiplock" aria-label="Skip to the menu" style="flex-grow:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:24px;border:0;background:#0B0614;color:#F2EEF8;cursor:pointer">' +
       '<span style="' + box + '">' + (ok ? ICON.check : ICON.scan) + '</span>' +
-      '<span class="px" role="status" style="font-size:14px;line-height:1.7;text-align:center;color:' + ACCENT + '">' + (ok ? 'WELCOME BACK, CLINTON' : 'SCANNING PLAYER…') + '</span>' +
-      '<span class="px" style="font-size:10px;color:#A79FBF">' + (ok ? 'YOU’RE ME NOW' : 'TAP TO SKIP') + '</span></button>';
+      '<span class="px" role="status" style="font-size:14px;line-height:1.7;text-align:center;color:' + ACCENT + '">' + (ok ? 'WELCOME TO THE STUDIO' : 'SCANNING PLAYER…') + '</span>' +
+      '<span class="px" style="font-size:10px;color:#A79FBF">' + (ok ? 'PLAYER 1 READY' : 'TAP TO SKIP') + '</span></button>';
   }
   function homeHTML() {
     var nf = NOTIFS[st.tick % NOTIFS.length];
     var h = '<div class="scroll" style="padding:36px 18px 14px;display:flex;flex-direction:column;gap:14px">' +
       '<div style="display:flex;flex-direction:column;gap:8px"><div class="px" style="font-size:10px;color:#2EE6FF">PLAYER 1</div>' +
       '<h2 style="margin:0;font-size:28px;font-weight:800;line-height:1;letter-spacing:-.02em">Clinton Strickland</h2>' +
-      '<div style="font-size:13px;line-height:1.35;color:#A79FBF">Schedule &amp; project controls lead · Founder, Ironline Planning Co.</div></div>' +
+      '<div style="font-size:13px;line-height:1.35;color:#A79FBF">Founder · ' + esc(COMPANY) + ' · hypergrowth &amp; content studio</div></div>' +
       '<button type="button" data-act="open" data-app="' + nf.app + '" style="display:flex;gap:12px;align-items:center;width:100%;padding:12px;border-radius:10px;border:2px solid ' + nf.col + ';background:#120B22;text-align:left;cursor:pointer;box-shadow:0 0 18px ' + nf.col + '33">' +
       '<span style="' + chip(nf.col, 38) + '">' + nf.n + '</span><span style="display:flex;flex-direction:column;gap:6px;min-width:0"><span class="px" style="font-size:10px;line-height:1.4;color:' + nf.col + '">' + esc(nf.from) + '</span><span style="font-size:14px;font-weight:600;line-height:1.3;color:#F2EEF8">' + esc(nf.text) + '</span></span></button>' +
       '<div class="px" style="font-size:10px;color:#A79FBF">SELECT STAGE</div>' +
@@ -442,54 +443,46 @@
     });
     return h + '</div><button type="button" data-act="home" style="display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;border-radius:8px;border:2px solid #2A1F4A;background:#16102A;color:#F2EEF8;font-family:var(--pixel);font-size:10px;cursor:pointer">■ STOP PROJECTION</button></div>';
   }
-  function workHTML(holo) {
-    var card = 'display:flex;flex-direction:column;gap:12px;padding:14px;border-radius:14px;background:#16102A;border:2px solid #2A1F4A';
-    var h = '<div class="scroll" style="padding:' + (holo ? '18px 20px 24px' : '32px 18px 16px') + ';display:flex;flex-direction:column;gap:14px">' + (holo ? '' : backBtn()) +
-      '<div class="px" style="font-size:10px;color:#2EE6FF">02 · WORK</div>' +
-      '<h2 class="px" style="margin:0;font-size:18px;line-height:1.5;color:#FFD23F;text-shadow:0 0 10px rgba(255,210,63,.45)">HI-SCORE TABLE</h2>' +
-      '<p style="margin:0;font-size:14px;line-height:1.45;color:#D9D2EA">Schedule and project controls since 2018: $150M+ directed as owner’s representative within a $500M+ portfolio, 75% of projects ahead of baseline, zero lost-time incidents.</p>' +
-      '<div style="' + card + '"><div class="mono" style="font-size:11px;line-height:1.4;color:#A79FBF">CAMPUS B · DATA CENTER · 300,000 SF · $650M</div>' +
-      '<h3 style="margin:0;font-size:16px;font-weight:700;line-height:1.3">Took over forecasting 206 days late. Delivered 126 days ahead of that forecast.</h3>' +
-      '<div style="position:relative;display:flex;flex-direction:column;gap:10px;padding-top:20px">' +
-      '<div aria-hidden="true" style="position:absolute;left:46.8%;top:0;bottom:0;width:2px;background:#FFD23F"></div>' +
-      '<div class="mono" style="position:absolute;left:46.8%;top:0;padding-left:6px;font-size:10px;font-weight:500;color:#FFD23F;white-space:nowrap">I joined · May 2021</div>' +
-      bar('Original plan · Feb 2022', 77.4, '#8C85A3', false, '#16102A') +
-      bar('Forecast at takeover · Sep 2022 (+206 days)', 100, '#FF4D6D', false, '#16102A') +
-      bar('Delivered · May 2022 (+80 days)', 86.1, '#2EE6FF', true, '#16102A') +
-      '</div><div class="mono" style="display:flex;justify-content:space-between;font-size:10px;color:#A79FBF"><span>Feb 2020</span><span>Sep 2022</span></div>' +
-      '<p style="margin:0;font-size:13px;line-height:1.4;color:#D9D2EA">61% of the slip recovered. Cost overrun held to $630K against a ~$1.2M forecast.</p></div>' +
-      '<div style="' + card + '"><div class="mono" style="font-size:11px;line-height:1.4;color:#A79FBF">CAMPUS C · ADVANCED MANUFACTURING · 110,000 SF</div>' +
-      '<h3 style="margin:0;font-size:16px;font-weight:700;line-height:1.3">28-month ground-up build. Delivered 4 weeks ahead of the approved baseline.</h3>' +
-      bar('Baseline', 100, '#8C85A3', false) + bar('Delivered · Jul 2026 · −4 weeks', 96.6, '#39FF88', true) +
-      '<div class="mono" style="font-size:10px;color:#A79FBF">Mar 2024 → Jul 2026</div>' +
-      '<p style="margin:0;font-size:13px;line-height:1.4;color:#D9D2EA">20 subcontractors, 170 peak workforce. $150K of rework avoided through resequencing, zero lost-time incidents.</p></div>' +
-      '<div style="display:flex;flex-direction:column">';
-    ROLES.forEach(function (r) {
-      h += '<div style="display:flex;flex-direction:column;gap:2px;padding:11px 0;border-top:2px dashed #2A1F4A"><span style="font-size:14px;font-weight:700">' + esc(r.org) + '</span><span style="font-size:13px;color:#A79FBF">' + esc(r.role) + '</span></div>';
-    });
-    h += '</div><ul style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px">';
-    METHODS.forEach(function (m) { h += '<li style="padding:6px 10px;border-radius:6px;border:2px solid #2A1F4A;background:#16102A;font-size:12px;font-weight:600">' + esc(m) + '</li>'; });
-    h += '</ul><div style="display:flex;flex-direction:column;gap:6px;padding-top:4px"><div class="px" style="font-size:10px;color:#FFD23F">POWER-UPS</div>' +
-      '<div style="font-size:13px;line-height:1.5;color:#D9D2EA">PMP · Certified ScrumMaster · OSHA 30 · Procore Certified (Project Manager, Superintendent, Field Productivity)</div>' +
-      '<div style="font-size:13px;line-height:1.5;color:#A79FBF">MBA, Pepperdine · CM Certificate, Florida Atlantic University · BA, Political Science, Xavier University of Louisiana</div></div>' +
-      '<a href="' + RESUME + '" style="align-self:flex-start;font-weight:700">Full web résumé ›</a></div>';
-    return h;
+  function holoWrap(n, label, col, title, intro) {
+    return '<div class="scroll" style="padding:18px 20px 24px;display:flex;flex-direction:column;gap:14px">' +
+      '<div class="px" style="font-size:10px;color:' + col + '">' + n + ' · ' + label + '</div>' +
+      '<h2 class="px" style="margin:0;font-size:18px;line-height:1.5;color:' + col + '">' + title + '</h2>' +
+      (intro ? '<p style="margin:0;font-size:14px;line-height:1.45;color:#D9D2EA">' + intro + '</p>' : '');
   }
-  function nowHTML() {
-    var h = '<div class="scroll" style="padding:18px 20px 24px;display:flex;flex-direction:column;gap:14px">' +
-      '<div class="px" style="font-size:10px;color:#7CFFCB">00 · NOW PLAYING</div>' +
-      '<h2 class="px" style="margin:0;font-size:18px;line-height:1.5;color:#7CFFCB">WHAT I’M WORKING ON</h2>' +
-      '<p style="margin:0;font-size:14px;line-height:1.45;color:#D9D2EA">Everything currently on my screen, work and play.</p><ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px">';
-    NOW.forEach(function (it) {
+  function priceHTML(p) {
+    return p.indexOf('[') === 0 ? '<span style="color:#FFB08A">' + esc(p) + '</span>' : esc(p);
+  }
+  function levelsHTML() {
+    var h = holoWrap('02', 'LEVELS', '#2EE6FF', 'SELECT YOUR LEVEL', 'Everyone starts at Level 1. Every level after it is scoped from what the audit finds.') + '<ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px">';
+    LEVELS.forEach(function (l) {
       h += '<li style="display:flex;flex-direction:column;gap:8px;padding:14px;border-radius:12px;background:#16102A;border:2px solid #2A1F4A">' +
-        '<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px"><span style="font-size:17px;font-weight:800">' + esc(it.t) + '</span>' +
-        '<span class="px" style="padding:5px 8px;border-radius:4px;border:2px solid ' + it.col + ';color:' + it.col + ';font-size:8px;white-space:nowrap">' + esc(it.status) + '</span></div>' +
-        '<span style="font-size:14px;line-height:1.45;color:#D9D2EA">' + esc(it.d) + '</span>' +
-        (it.href ? '<a href="' + it.href + '"' + (/^https?:/.test(it.href) ? ' target="_blank" rel="noopener"' : '') + ' style="align-self:flex-start;display:flex;align-items:center;min-height:40px;padding:0 14px;border-radius:6px;background:' + it.col + ';color:#0B0614;font-family:var(--pixel);font-size:9px;text-decoration:none">\u25B6 ' + esc(it.cta || 'OPEN') + '</a>' : '') +
-        (it.app ? '<button type="button" data-act="open" data-app="' + it.app + '" style="align-self:flex-start;min-height:36px;padding:0 12px;border-radius:6px;border:1px solid rgba(242,238,248,.5);background:transparent;color:#F2EEF8;font-family:var(--pixel);font-size:9px;cursor:pointer">OPEN ' + esc(APPS.filter(function (a) { return a.id === it.app; })[0].label) + ' ›</button>' : '') +
-        '</li>';
+        '<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px"><span class="px" style="font-size:10px;color:' + l.col + '">' + l.lv + ' · ' + l.tag + '</span><span style="font-size:15px;font-weight:800">' + priceHTML(l.price) + '</span></div>' +
+        '<span style="font-size:18px;font-weight:800;line-height:1.2">' + esc(l.name) + '</span>' +
+        '<span class="mono" style="font-size:12px;color:#A79FBF">' + esc(l.len) + '</span>' +
+        '<span style="font-size:14px;line-height:1.45;color:#D9D2EA">' + esc(l.d) + '</span></li>';
     });
-    return h + '</ul></div>';
+    return h + '</ol><a href="' + CALL + '"' + (CALL_EXT ? ' target="_blank" rel="noopener"' : '') + ' style="align-self:flex-start;display:flex;align-items:center;min-height:44px;padding:0 16px;border-radius:6px;background:#FFD23F;color:#0B0614;font-family:var(--pixel);font-size:10px;text-decoration:none">▶ BOOK A CALL</a></div>';
+  }
+  function howHTML() {
+    var h = holoWrap('04', 'HOW IT WORKS', '#FF2E88', 'HOW A GAME GOES', 'Six steps from first call to scaling what works.') + '<ol style="list-style:none;margin:0;padding:0">';
+    STEPS.forEach(function (s, i) {
+      h += '<li style="display:grid;grid-template-columns:40px 1fr;gap:2px 12px;padding:12px 0;border-top:2px dashed #2A1F4A"><span class="px" aria-hidden="true" style="grid-row:span 2;font-size:14px;color:#FF2E88">0' + (i + 1) + '</span>' +
+        '<span style="font-size:16px;font-weight:800">' + esc(s.t) + ' <span class="mono" style="font-size:12px;font-weight:500;color:#A79FBF">· ' + esc(s.len) + '</span></span>' +
+        '<span style="font-size:14px;line-height:1.45;color:#D9D2EA">' + esc(s.d) + '</span></li>';
+    });
+    return h + '</ol></div>';
+  }
+  function fitHTML(a) {
+    var list = function (title, items, col) {
+      return '<div class="px" style="font-size:10px;color:' + col + ';margin-top:6px">' + title + '</div><ul style="margin:0;padding-left:18px">' + items.map(function (t) { return '<li style="font-size:14px;line-height:1.45;color:#D9D2EA;margin:4px 0">' + esc(t) + '</li>'; }).join('') + '</ul>';
+    };
+    var g = genericHTML(a, true);
+    return g.replace(/<\/ul><\/div>$/, '</ul>' + list('GOOD TIME TO CALL', FIT_TRIGGERS, '#39FF88') + list('NOT A FIT', NOT_FIT, '#FFB08A') + '</div>');
+  }
+  function checkHTML() {
+    return holoWrap('06', 'HEALTH CHECK', '#FFD23F', 'FREE HEALTH CHECK', 'Ten quick questions about your strategy, content, distribution, measurement and conversion. You get a score, your weakest area and the level we’d start you on. Your answers stay on your device.') +
+      '<a href="' + CHECK + '" style="align-self:flex-start;display:flex;align-items:center;min-height:48px;padding:0 18px;border-radius:6px;background:#FFD23F;color:#0B0614;font-family:var(--pixel);font-size:11px;text-decoration:none">▶ START THE CHECK</a>' +
+      '<p class="mono" style="margin:0;font-size:12px;color:#A79FBF">About 2 minutes · no sign-up</p></div>';
   }
   function reviewsHTML() {
     var h = '<div class="scroll" style="padding:18px 20px 24px;display:flex;flex-direction:column;gap:14px">' +
@@ -549,7 +542,7 @@
     holoKey = key;
     if (!key) return; // keep old content while the panel collapses
     var a = APPS.filter(function (x) { return x.id === key; })[0];
-    els.holoBody.innerHTML = key === 'work' ? workHTML(true) : key === 'now' ? nowHTML() : key === 'reviews' ? reviewsHTML() : genericHTML(a, true);
+    els.holoBody.innerHTML = key === 'levels' ? levelsHTML() : key === 'how' ? howHTML() : key === 'check' ? checkHTML() : key === 'fit' ? fitHTML(a) : key === 'reviews' ? reviewsHTML() : genericHTML(a, true);
     els.holoLabel.textContent = 'HOLO · ' + a.n + ' ' + a.label;
     var nice = a.label.charAt(0) + a.label.slice(1).toLowerCase();
     els.holo.setAttribute('aria-label', 'Hologram: ' + nice);
