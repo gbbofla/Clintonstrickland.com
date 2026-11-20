@@ -15,6 +15,7 @@
   var EMAIL = 'clinton.strickland3@gmail.com';
   var LINKEDIN = 'https://www.linkedin.com/in/csiii';
   var GITHUB = 'https://github.com/gbbofla';
+  var SHOP = 'shop.html'; // the Prize Counter: Drop 01 merch
   var RESUME = 'company.html'; // plain, fully accessible version of the whole site
   var CALL = BOOKING_URL || ('mailto:' + EMAIL + '?subject=' + encodeURIComponent('15-minute call') + '&body=' + encodeURIComponent('Hi Clinton,\n\nI found your site and would like to set up a 15-minute call. A few times that work for me:\n\n- \n- \n\nThanks,\n'));
   var CALL_EXT = !!BOOKING_URL;
@@ -83,7 +84,8 @@
       body: 'Book a 30-minute call. We’ll ask about your goals, your numbers and what you’ve already tried, and tell you honestly whether we’re the right fit.',
       rows: [{ t: 'Book a 30-minute call', href: CALL }, { t: 'Take the free Growth & Content Health Check', href: CHECK }, { t: EMAIL, href: 'mailto:' + EMAIL }, { t: 'Add Clinton to your contacts', href: VCARD }, { t: 'linkedin.com/in/csiii', href: LINKEDIN }, { t: 'Know someone who needs this? Send them our way. Referrals are how we grow too.' }, { t: 'Port St. Lucie, FL · working with clients everywhere' }] }
   ];
-  if (REVIEWS.length) APPS.push({ id: 'reviews', n: '08', label: 'REVIEWS', col: '#FFD23F' });
+  APPS.push({ id: 'prizes', n: '08', label: 'PRIZE COUNTER', col: '#39FF88' });
+  if (REVIEWS.length) APPS.push({ id: 'reviews', n: '09', label: 'REVIEWS', col: '#FFD23F' });
 
   var FIT_TRIGGERS = ['You just raised, launched or hired your first marketer', 'You’re posting every week and the numbers aren’t moving', 'You’re starting short-form video or vertical series', 'Your agency treats you like a small account'];
   var NOT_FIT = ['You want likes, not customers', 'No one owns the outcome on your side', 'You need the cheapest posting service in town'];
@@ -376,6 +378,7 @@
     chrome.push('<a href="' + RESUME + '" class="abs px t-fade" data-el="skip" aria-label="Skip intro: read the plain version of the site" style="z-index:6;right:' + (mobile ? 14 : 80) + 'px;top:' + (mobile ? 14 : 16) + 'px;display:flex;align-items:center;min-height:32px;padding:0 10px;border-radius:6px;border:2px solid rgba(242,238,248,.6);background:rgba(11,6,20,.75);color:#F2EEF8;font-size:9px;text-decoration:none">SKIP INTRO \u203a</a>');
     chrome.push('<button type="button" class="abs px" data-act="motion" data-el="motion" aria-pressed="false" aria-label="Pause animations" style="z-index:6;right:' + (mobile ? 146 : 250) + 'px;top:' + (mobile ? 14 : 16) + 'px;font-family:var(--pixel);display:flex;align-items:center;justify-content:center;gap:8px;min-width:32px;min-height:32px;padding:0 ' + (mobile ? 0 : 10) + 'px;border-radius:6px;border:2px solid rgba(242,238,248,.6);background:rgba(11,6,20,.75);color:#F2EEF8;font-size:9px;cursor:pointer"><span data-el="motionIcon" aria-hidden="true"></span>' + (mobile ? '' : '<span data-el="motionText" aria-hidden="true"></span>') + '</button>');
     chrome.push('<a href="./" class="abs px" style="z-index:6;left:' + (mobile ? 20 : 80) + 'px;top:24px;font-size:' + (mobile ? 10 : 11) + 'px;color:#F2EEF8;text-decoration:none;text-shadow:0 0 8px rgba(242,238,248,.4)">CLINTON STRICKLAND</a>');
+    if (!mobile) chrome.push('<a href="' + SHOP + '" class="abs px" style="z-index:6;left:330px;top:18px;display:flex;align-items:center;min-height:32px;padding:0 10px;border-radius:6px;border:2px solid #39FF88;background:rgba(11,6,20,.75);color:#39FF88;font-size:9px;text-decoration:none">PRIZE COUNTER</a>');
     if (!mobile) chrome.push('<div class="abs px" data-el="where" aria-hidden="true" style="z-index:6;right:430px;top:26px;font-size:10px;color:#A79FBF"></div>');
     h.unshift(chrome.join(''));
 
@@ -484,9 +487,19 @@
       '<a href="' + CHECK + '" style="align-self:flex-start;display:flex;align-items:center;min-height:48px;padding:0 18px;border-radius:6px;background:#FFD23F;color:#0B0614;font-family:var(--pixel);font-size:11px;text-decoration:none">▶ START THE CHECK</a>' +
       '<p class="mono" style="margin:0;font-size:12px;color:#A79FBF">About 2 minutes · no sign-up</p></div>';
   }
+  function prizesHTML() {
+    var items = [['press-start-hoodie-back', 'Press Start Hoodie', '$65'], ['level-up-tee', 'Level Up Tee', '$34'], ['player-1-ready-tee', 'Player 1 Ready Tee', '$34'], ['pin-player-1-head', 'Player 1 Enamel Pin', '$15']];
+    var h = holoWrap('08', 'PRIZE COUNTER', '#39FF88', 'DROP 01: PLAYER 1', 'Arcade gear for people who press start. Hoodies, tees, stickers and enamel pins, printed to order. Store opens January 1, 2027.') +
+      '<ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px">';
+    items.forEach(function (it) {
+      h += '<li style="display:flex;flex-direction:column;gap:6px;padding:8px;border-radius:10px;background:#16102A;border:2px solid #2A1F4A"><img src="merch/' + it[0] + '.png" alt="" width="640" height="640" style="width:100%;height:auto;border-radius:6px;background:#211538">' +
+        '<span style="font-size:13px;font-weight:700;line-height:1.2">' + esc(it[1]) + '</span><span class="px" style="font-size:10px;color:#FFD23F">' + it[2] + '</span></li>';
+    });
+    return h + '</ul><a href="' + SHOP + '" style="align-self:flex-start;display:flex;align-items:center;min-height:48px;padding:0 18px;border-radius:6px;background:#39FF88;color:#0B0614;font-family:var(--pixel);font-size:11px;text-decoration:none">\u25B6 VISIT THE PRIZE COUNTER</a></div>';
+  }
   function reviewsHTML() {
     var h = '<div class="scroll" style="padding:18px 20px 24px;display:flex;flex-direction:column;gap:14px">' +
-      '<div class="px" style="font-size:10px;color:#FFD23F">07 · REVIEWS</div>' +
+      '<div class="px" style="font-size:10px;color:#FFD23F">09 · REVIEWS</div>' +
       '<h2 class="px" style="margin:0;font-size:18px;line-height:1.5;color:#FFD23F">2P SAYS</h2>' +
       '<p style="margin:0;font-size:14px;line-height:1.45;color:#D9D2EA">From people I’ve built with.</p>';
     REVIEWS.forEach(function (r) {
@@ -542,7 +555,7 @@
     holoKey = key;
     if (!key) return; // keep old content while the panel collapses
     var a = APPS.filter(function (x) { return x.id === key; })[0];
-    els.holoBody.innerHTML = key === 'levels' ? levelsHTML() : key === 'how' ? howHTML() : key === 'check' ? checkHTML() : key === 'fit' ? fitHTML(a) : key === 'reviews' ? reviewsHTML() : genericHTML(a, true);
+    els.holoBody.innerHTML = key === 'levels' ? levelsHTML() : key === 'how' ? howHTML() : key === 'check' ? checkHTML() : key === 'fit' ? fitHTML(a) : key === 'reviews' ? reviewsHTML() : key === 'prizes' ? prizesHTML() : genericHTML(a, true);
     els.holoLabel.textContent = 'HOLO · ' + a.n + ' ' + a.label;
     var nice = a.label.charAt(0) + a.label.slice(1).toLowerCase();
     els.holo.setAttribute('aria-label', 'Hologram: ' + nice);
