@@ -6,6 +6,7 @@
   var STORE = '';
   var LINKS = {
     hoodie: '',   // e.g. '/products/press-start-hoodie'
+    'goat-water': '',
     'level-up': '',
     'player-1': '',
     stickers: '',
