@@ -115,3 +115,25 @@ a:hover{color:#8FF3FF}
 .stage.still .holo.on .holo-inner,.stage.still .beam.on,.stage.still .holo-scan,.stage.still .holo-sweep{animation:none!important}
 .stage.still .holo-sweep{display:none}
 .stage.still .cab-screen,.stage.still .line{transition:none!important}
+
+/* studio pages: nav row, lead forms, episode list */
+.sitenav{display:flex;flex-wrap:wrap;gap:6px 16px;margin:-20px 0 30px;font-family:var(--mono);font-size:13px}
+.sitenav a{color:var(--muted);text-decoration:none;padding:6px 0}
+.sitenav a:hover,.sitenav a[aria-current="page"]{color:var(--ink);text-decoration:underline;text-underline-offset:4px}
+.lead-form{display:grid;gap:14px;max-width:560px;margin-top:12px;padding:18px;border:2px solid var(--line);border-radius:12px;background:rgba(22,16,42,.85)}
+.lead-form label{display:grid;gap:6px;font-size:15px;font-weight:600;color:var(--ink)}
+.lead-form .opt{font-weight:500;color:var(--muted)}
+.lead-form input,.lead-form select,.lead-form textarea{width:100%;min-height:44px;padding:10px 12px;border:2px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit;font-weight:500}
+.lead-form textarea{min-height:96px;resize:vertical}
+.lead-form input:focus-visible,.lead-form select:focus-visible,.lead-form textarea:focus-visible{outline:3px solid var(--yellow);outline-offset:1px;border-color:var(--yellow)}
+.lead-form button{justify-self:start;cursor:pointer}
+.lead-form .fine{font-family:var(--mono);font-size:12.5px;line-height:1.5;color:var(--muted);margin:0}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.eps{list-style:none;padding:0;margin:8px 0;display:grid;gap:10px}
+.eps li{margin:0;padding:12px 14px;border:2px solid var(--line);border-radius:10px;background:rgba(22,16,42,.85)}
+.eps .n{font-family:var(--pixel);font-size:10px;color:var(--magenta);display:block;margin-bottom:6px}
+.facts-table{width:100%;border-collapse:collapse;font-size:15px}
+.facts-table th,.facts-table td{text-align:left;vertical-align:top;padding:10px 8px;border-bottom:1px solid var(--line);color:var(--soft)}
+.facts-table th{width:34%;color:var(--ink);font-weight:700}
+button.btn{font-family:var(--pixel)}
+@media print{.lead-form,.sitenav{display:none}}

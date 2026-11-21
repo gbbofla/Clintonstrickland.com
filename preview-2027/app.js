@@ -5,7 +5,7 @@
   var ACCENT = '#FFD23F', HOODIE = '#6F8FAA', SKIN = '#B9784A'; // faded whale-blue sweatshirt
   var BOOKING_URL = 'https://calendly.com/clinton-strickland3/30min'; // paste a Calendly or Google booking link here; until then the button opens a prefilled email
   var VCARD = 'clintonstrickland.vcf';
-  var CLIFFHANGER_BETA = ''; // public beta link; the PLAY THE BETA button appears once this is set
+  var CLIFFHANGER_BETA = 'https://beta.clintonstrickland.com/?ref=site-arcade'; // public beta link, tagged so the app's Audience insights can count signups from this site
   // Real quotes only. Each: { q: 'quote', name: 'Full Name', role: 'Title, Company' }. The REVIEWS stage appears once this has entries.
   var REVIEWS = [];
   var GLOW = ACCENT + '59';
@@ -67,9 +67,13 @@
       d: 'About 10 hours a week: owns your growth plan, sets the KPIs, manages vendors and creators, and coaches your in-house team.' }
   ];
 
+  var THRONE = 'the-throne.html', SLATE = 'slate.html', PLAYBOOK = 'playbook.html', PARTNERS = 'partners.html';
   var APPS = [
-    { id: 'pitch', n: '01', label: 'THE PITCH', col: ACCENT, title: 'Growth you can see coming.',
-      body: COMPANY + ' is a hypergrowth and content studio founded by Clinton Strickland. Most brands don’t have a content problem; they have a system problem. We start with a fixed-fee audit that finds where your growth is leaking, then build the engine that fixes it: a repeatable format, a weekly cadence, short-form and microdrama series, and measurement that judges every post by pipeline, not likes.',
+    { id: 'studio', n: '01', label: 'THE STUDIO', col: '#FF2E88', title: 'Stories built to be impossible to stop watching.',
+      body: COMPANY + ' is a Florida micro drama studio. We write, shoot and stream vertical series on our own app, Cliffhanger, and we measure every second: a hook in the first 3 seconds, a cliffhanger at the end, and data on exactly where viewers quit.',
+      rows: [{ t: 'THE THRONE — our flagship. Empires fall. He doesn’t get up.', href: THRONE }, { t: 'Watch the Cliffhanger beta', href: CLIFFHANGER_BETA }, { t: 'The slate: four series in development', href: SLATE }, { t: 'The playbook: how we hook viewers, and what the data says', href: PLAYBOOK }, { t: 'Invest, distribute, cast or collaborate: partner with us', href: PARTNERS }] },
+    { id: 'pitch', n: '01', label: 'HIRE US', col: ACCENT, title: 'Growth you can see coming.',
+      body: 'Hire the studio behind Cliffhanger. ' + COMPANY + ' was founded by Clinton Strickland, and we sell the same playbook we run on our own shows. Most brands don’t have a content problem; they have a system problem. We start with a fixed-fee audit that finds where your growth is leaking, then build the engine that fixes it: a repeatable format, a weekly cadence, short-form and microdrama series, and measurement that judges every post by pipeline, not likes.',
       rows: [{ t: 'Prove what works before you scale it.' }, { t: 'Copy the structure, change the story.' }, { t: 'Packaging is half the work: the hook decides whether anyone sees the rest.' }, { t: 'Judge content like media: by what it moves.' }, { t: 'Founder-led: you work with Clinton directly.' }] },
     { id: 'levels', n: '02', label: 'LEVELS', col: '#2EE6FF' },
     { id: 'fit', n: '03', label: 'WHO WE HELP', col: '#39FF88', title: 'Who we play for',
@@ -78,14 +82,17 @@
     { id: 'how', n: '04', label: 'HOW IT WORKS', col: '#FF2E88' },
     { id: 'proof', n: '05', label: 'PROOF', col: '#FF8A3D', title: 'Proof, built in public',
       body: 'We’re new, so we show our work instead of a logo wall. Every result we publish will be measured and signed off by the client.',
-      rows: [{ t: 'Cliffhanger — our own microdrama studio and app, in public beta. The same playbook we sell, run on ourselves.' }, { t: 'Founding clients — a few first audits at a founding rate, in exchange for a named case study.' }, { t: 'Case studies will appear here as founding clients finish their audits.' }] },
+      rows: [{ t: 'Cliffhanger — our own micro drama studio and app, in public beta. The same playbook we sell, run on ourselves. Watch it now.', href: CLIFFHANGER_BETA.replace('site-arcade', 'site-proof') }, { t: 'Founding clients — a few first audits at a founding rate, in exchange for a named case study.' }, { t: 'Case studies will appear here as founding clients finish their audits.' }] },
     { id: 'check', n: '06', label: 'HEALTH CHECK', col: '#FFD23F' },
     { id: 'contact', n: '07', label: 'CONTACT', col: '#A78BFA', title: 'Let’s grow something.',
       body: 'Book a 30-minute call. We’ll ask about your goals, your numbers and what you’ve already tried, and tell you honestly whether we’re the right fit.',
-      rows: [{ t: 'Book a 30-minute call', href: CALL }, { t: 'Take the free Growth & Content Health Check', href: CHECK }, { t: EMAIL, href: 'mailto:' + EMAIL }, { t: 'Add Clinton to your contacts', href: VCARD }, { t: 'linkedin.com/in/csiii', href: LINKEDIN }, { t: 'Know someone who needs this? Send them our way. Referrals are how we grow too.' }, { t: 'Port St. Lucie, FL · working with clients everywhere' }] }
+      rows: [{ t: 'Book a 30-minute call', href: CALL }, { t: 'Take the free Growth & Content Health Check', href: CHECK }, { t: 'Investors, distributors, talent and crew: partner with us', href: PARTNERS }, { t: EMAIL, href: 'mailto:' + EMAIL }, { t: 'Add Clinton to your contacts', href: VCARD }, { t: 'linkedin.com/in/csiii', href: LINKEDIN }, { t: 'Know someone who needs this? Send them our way. Referrals are how we grow too.' }, { t: 'Port St. Lucie, FL · working with clients everywhere' }] }
   ];
   APPS.push({ id: 'prizes', n: '08', label: 'PRIZE COUNTER', col: '#39FF88' });
   if (REVIEWS.length) APPS.push({ id: 'reviews', n: '09', label: 'REVIEWS', col: '#FFD23F' });
+  // Number the apps in order, so adding one never leaves two with the same number.
+  APPS.forEach(function (a, i) { a.n = (i < 9 ? '0' : '') + (i + 1); });
+  function appN(id) { for (var i = 0; i < APPS.length; i++) if (APPS[i].id === id) return APPS[i].n; return ''; }
 
   var FIT_TRIGGERS = ['You just raised, launched or hired your first marketer', 'You’re posting every week and the numbers aren’t moving', 'You’re starting short-form video or vertical series', 'Your agency treats you like a small account'];
   var NOT_FIT = ['You want likes, not customers', 'No one owns the outcome on your side', 'You need the cheapest posting service in town'];
@@ -99,13 +106,13 @@
   ];
 
   var NOTIFS = [
-    { from: 'NOW BOOKING · JANUARY 2027', text: 'Founding-client audits are open. Start at Level 1.', app: 'levels', n: '02', col: '#2EE6FF' },
-    { from: 'FREE · 10 QUESTIONS', text: 'How healthy is your growth and content engine?', app: 'check', n: '06', col: '#FFD23F' },
-    { from: 'OUR STUDIO · CLIFFHANGER', text: 'Our microdrama studio and app, in public beta.', app: 'proof', n: '05', col: '#FF8A3D' }
+    { from: 'NOW PLAYING · THE THRONE', text: 'Our flagship series. Empires fall. He doesn’t get up.', app: 'studio', n: appN('studio'), col: '#FF2E88' },
+    { from: 'NOW BOOKING · JANUARY 2027', text: 'Hire the studio behind Cliffhanger. Start at Level 1.', app: 'levels', n: appN('levels'), col: '#2EE6FF' },
+    { from: 'FREE · 10 QUESTIONS', text: 'How healthy is your growth and content engine?', app: 'check', n: appN('check'), col: '#FFD23F' }
   ];
   REVIEWS.slice(0, 2).forEach(function (r, i) {
     var short = r.q.length > 90 ? r.q.slice(0, 87).replace(/\s+\S*$/, '') + '…' : r.q;
-    NOTIFS.splice(1 + i * 2, 0, { from: '2P SAYS · ' + r.name.toUpperCase(), text: '“' + short + '”', app: 'reviews', n: '08', col: '#FFD23F' });
+    NOTIFS.splice(1 + i * 2, 0, { from: '2P SAYS · ' + r.name.toUpperCase(), text: '“' + short + '”', app: 'reviews', n: appN('reviews'), col: '#FFD23F' });
   });
 
   var LINES = [
@@ -301,19 +308,19 @@
     };
     if (!UC && !mobile) {
       h.push('<div class="abs t-fade" data-el="hud" style="left:0;top:70px;width:1280px;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center">');
-      h.push('<div style="' + chipBox + ';font-size:13px">' + dot + 'Now booking founding clients · January 2027</div>');
-      h.push('<h1 class="px" style="margin:0;font-size:34px;line-height:1.3;color:#FF7AB8;text-shadow:0 0 6px rgba(255,46,136,.9),0 0 24px rgba(255,46,136,.6)">LEVEL UP YOUR GROWTH</h1>');
-      h.push('<p style="margin:0;max-width:600px;font-size:17px;line-height:1.45;color:#D9D2EA">' + esc(COMPANY) + ' is a hypergrowth and content studio founded by Clinton Strickland. Press start to step inside and see how we play.</p>');
-      h.push('<div style="display:flex;align-items:center;gap:14px">' + startBtn(13) + sideBtn(CALL, 'BOOK A CALL', '#2EE6FF', ICON.cal, CALL_EXT, 11, 52) + sideBtn(CHECK, 'FREE HEALTH CHECK', '#FF2E88', ICON.check16, false, 11, 52) + '</div>');
+      h.push('<div style="' + chipBox + ';font-size:13px">' + dot + 'Now playing · THE THRONE · Florida micro drama studio</div>');
+      h.push('<h1 class="px" style="margin:0;font-size:34px;line-height:1.3;color:#FF7AB8;text-shadow:0 0 6px rgba(255,46,136,.9),0 0 24px rgba(255,46,136,.6)">STORIES YOU CAN’T STOP WATCHING</h1>');
+      h.push('<p style="margin:0;max-width:600px;font-size:17px;line-height:1.45;color:#D9D2EA">' + esc(COMPANY) + ' makes vertical micro dramas, streams them on our own app, Cliffhanger, and measures every second. Press start to step inside, or watch the beta now.</p>');
+      h.push('<div style="display:flex;align-items:center;gap:14px">' + startBtn(13) + sideBtn(CLIFFHANGER_BETA, 'WATCH THE BETA', '#FF2E88', ICON.play, true, 11, 52) + sideBtn(THRONE, 'THE THRONE', '#FFD23F', ICON.file, false, 11, 52) + sideBtn(CALL, 'BOOK A CALL', '#2EE6FF', ICON.cal, CALL_EXT, 11, 52) + '</div>');
       h.push('</div>');
     }
     if (!UC && mobile) {
       h.push('<div class="abs t-fade" data-el="hud" style="left:24px;top:74px;width:342px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center">');
-      h.push('<div style="' + chipBox + ';font-size:12px;min-height:30px;padding:0 12px">' + dot + 'Now booking · Jan 2027</div>');
-      h.push('<h1 class="px" style="margin:0;font-size:24px;line-height:1.45;color:#FF7AB8;text-shadow:0 0 6px rgba(255,46,136,.9),0 0 20px rgba(255,46,136,.6)">LEVEL UP<br>YOUR GROWTH</h1>');
+      h.push('<div style="' + chipBox + ';font-size:12px;min-height:30px;padding:0 12px">' + dot + 'Now playing · THE THRONE</div>');
+      h.push('<h1 class="px" style="margin:0;font-size:19px;line-height:1.45;color:#FF7AB8;text-shadow:0 0 6px rgba(255,46,136,.9),0 0 20px rgba(255,46,136,.6)">STORIES YOU CAN’T<br>STOP WATCHING</h1>');
       h.push('<p style="margin:0;font-size:15px;line-height:1.4;color:#D9D2EA">That’s me, Clinton, on my phone in the arcade. Tap me or swipe up to see what I see.</p>');
       h.push(startBtn(12));
-      h.push('<div style="display:flex;gap:10px;width:100%">' + sideBtn(CALL, 'BOOK CALL', '#2EE6FF', ICON.cal, CALL_EXT, 9, 44).replace('display:flex', 'flex:1 1 0;display:flex') + sideBtn(CHECK, 'HEALTH CHECK', '#FF2E88', ICON.check16, false, 9, 44).replace('display:flex', 'flex:1 1 0;display:flex') + '</div>');
+      h.push('<div style="display:flex;gap:10px;width:100%">' + sideBtn(CLIFFHANGER_BETA, 'WATCH BETA', '#FF2E88', ICON.play, true, 9, 44).replace('display:flex', 'flex:1 1 0;display:flex') + sideBtn(CALL, 'BOOK CALL', '#2EE6FF', ICON.cal, CALL_EXT, 9, 44).replace('display:flex', 'flex:1 1 0;display:flex') + '</div>');
       h.push('</div>');
     }
     if (UC) {
@@ -418,7 +425,7 @@
     var h = '<div class="scroll" style="padding:36px 18px 14px;display:flex;flex-direction:column;gap:14px">' +
       '<div style="display:flex;flex-direction:column;gap:8px"><div class="px" style="font-size:10px;color:#2EE6FF">PLAYER 1</div>' +
       '<h2 style="margin:0;font-size:28px;font-weight:800;line-height:1;letter-spacing:-.02em">Clinton Strickland</h2>' +
-      '<div style="font-size:13px;line-height:1.35;color:#A79FBF">Founder · ' + esc(COMPANY) + ' · hypergrowth &amp; content studio</div></div>' +
+      '<div style="font-size:13px;line-height:1.35;color:#A79FBF">Founder · ' + esc(COMPANY) + ' · micro drama studio</div></div>' +
       '<button type="button" data-act="open" data-app="' + nf.app + '" style="display:flex;gap:12px;align-items:center;width:100%;padding:12px;border-radius:10px;border:2px solid ' + nf.col + ';background:#120B22;text-align:left;cursor:pointer;box-shadow:0 0 18px ' + nf.col + '33">' +
       '<span style="' + chip(nf.col, 38) + '">' + nf.n + '</span><span style="display:flex;flex-direction:column;gap:6px;min-width:0"><span class="px" style="font-size:10px;line-height:1.4;color:' + nf.col + '">' + esc(nf.from) + '</span><span style="font-size:14px;font-weight:600;line-height:1.3;color:#F2EEF8">' + esc(nf.text) + '</span></span></button>' +
       '<div class="px" style="font-size:10px;color:#A79FBF">SELECT STAGE</div>' +
