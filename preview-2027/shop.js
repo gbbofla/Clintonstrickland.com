@@ -6,6 +6,7 @@
   var STORE = '';
   var LINKS = {
     hoodie: '',   // e.g. '/products/press-start-hoodie'
+    'ant-i-algo': '',
     'goat-water': '',
     'level-up': '',
     'player-1': '',
